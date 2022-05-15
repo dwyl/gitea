@@ -7,7 +7,9 @@ defmodule Gitea.MixProject do
       version: "0.1.0",
       elixir: "~> 1.13",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      description: "Elixir interface for Gitea server",
+      package: package()
     ]
   end
 
@@ -20,9 +22,16 @@ defmodule Gitea.MixProject do
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
+    [{:git_cli, "~> 0.3.0"}]
+  end
+
+  defp package() do
     [
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
+      files: ~w(lib LICENSE mix.exs README.md),
+      name: "gitea",
+      licenses: ["GPL-2.0-or-later"],
+      maintainers: ["dwyl"],
+      links: %{"GitHub" => "https://github.com/dwyl/gitea"}
     ]
   end
 end
