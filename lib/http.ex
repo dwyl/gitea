@@ -13,7 +13,7 @@ defmodule Gitea.Http do
   @httpoison (@mock && Gitea.HTTPoisonMock) || HTTPoison
 
   defp access_token do
-    Envar.get("GOGS_ACCESS_TOKEN")
+    Envar.get("GITEA_ACCESS_TOKEN")
   end
 
   defp auth_header do

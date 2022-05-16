@@ -5,7 +5,7 @@ defmodule Gitea.Helpers do
   https://github.com/dwyl/gitea/issues
   """
   require Logger
-  # @env_required ~w/GOGS_URL GOGS_SSH_PORT GOGS_ACCESS_TOKEN/
+  # @env_required ~w/GITEA_URL GITEA_ACCESS_TOKEN/
   @cwd File.cwd!()
   @git_dir Envar.get("GIT_TEMP_DIR_PATH", @cwd)
   @mock Application.compile_env(:gitea, :mock)
@@ -19,7 +19,7 @@ defmodule Gitea.Helpers do
   """
   @spec api_base_url() :: String.t()
   def api_base_url do
-    "https://#{Envar.get("GOGS_URL")}/api/v1/"
+    "https://#{Envar.get("GITEA_URL")}/api/v1/"
   end
 
   @doc """
@@ -52,8 +52,8 @@ defmodule Gitea.Helpers do
   """
   @spec remote_url_ssh(String.t(), String.t()) :: String.t()
   def remote_url_ssh(org, repo) do
-    url = Envar.get("GOGS_URL")
-    port = Envar.get("GOGS_SSH_PORT")
+    url = Envar.get("GITEA_URL")
+    port = Envar.get("GITEA_SSH_PORT", nil)
     git_url = Gitea.Helpers.make_url(url, port)
     remote_url(git_url, org, repo)
   end

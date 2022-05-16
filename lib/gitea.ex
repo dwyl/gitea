@@ -28,7 +28,7 @@ defmodule Gitea do
   @doc """
   `remote_repo_create/3` accepts 3 arguments: `org_name`, `repo_name` & `private`.
   It creates a repo on the remote `Gitea` instance as defined
-  by the environment variable `GOGS_URL`.
+  by the environment variable `GITEA_URL`.
   For convenience it assumes that you only have _one_ `Gitea` instance.
   If you have more or different requirements, please share!
   """
@@ -50,7 +50,7 @@ defmodule Gitea do
   @doc """
   `remote_repo_delete/2` accepts two arguments: `org_name` and `repo_name`.
   It deletes the repo on the remote `Gitea` instance as defined
-  by the environment variable `GOGS_URL`.
+  by the environment variable `GITEA_URL`.
   """
   @spec remote_repo_delete(String.t(), String.t()) :: {:ok, map} | {:error, any}
   def remote_repo_delete(org_name, repo_name) do
@@ -65,7 +65,7 @@ defmodule Gitea do
   The 4<sup>th</sup> argument is *optional* and defaults to `"master"`
   (the default branch for a repo hosted on `Gitea`).
   Makes a `GET` request to the remote `Gitea` instance as defined
-  by the environment variable `GOGS_URL`.
+  by the environment variable `GITEA_URL`.
   Returns `{:ok, %HTTPoison.Response{ body: response_body}}`
   Uses REST API Endpoint:
   ```sh
@@ -88,7 +88,7 @@ defmodule Gitea do
   The 4<sup>th</sup> argument is *optional* and defaults to `"master"`
   (the default branch for a repo hosted on `Gitea`).
   Makes a `GET` request to the remote `Gitea` instance as defined
-  by the environment variable `GOGS_URL`.
+  by the environment variable `GITEA_URL`.
   Returns `{:ok, %HTTPoison.Response{ body: response_body}}`
   Uses REST API Endpoint:
   ```sh
