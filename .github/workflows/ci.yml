@@ -32,6 +32,11 @@ jobs:
         restore-keys: ${{ runner.os }}-mix-
     - name: Install dependencies
       run: mix deps.get
+    - name: Create SSH key
+      run: |
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          ssh-keyscan -H gitea-server.fly.dev > ~/.ssh/known_hosts
     - name: Run Tests
       run: mix coveralls.json
       env:

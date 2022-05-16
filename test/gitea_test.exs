@@ -7,7 +7,7 @@ defmodule GiteaTest do
     gitea_server_url = Application.get_env(:gitea, :gitea_server_url)
 
     git_url = GH.remote_git_url(gitea_server_url, "non", "non")
-
+    IO.inspect(git_url)
     assert {:error, _err} = Gitea.clone(git_url)
   end
 

@@ -3,7 +3,7 @@ defmodule Gitea do
   Documentation for `Gitea`.
   """
 
-  alias Gitea.Helpers, as: GA
+  alias Gitea.Helpers, as: GH
   require Logger
 
   # return Git module based on environment
@@ -18,8 +18,8 @@ defmodule Gitea do
   """
   @spec clone(String.t()) :: {:ok, String.t()} | {:error, String.t()}
   def clone(git_repo_url) do
-    {org_name, repo_name} = GA.get_org_repo_names_from_git_url(git_repo_url)
-    local_path = GA.local_repo_path(org_name, repo_name)
+    {org_name, repo_name} = GH.get_org_repo_names_from_git_url(git_repo_url)
+    local_path = GH.local_repo_path(org_name, repo_name)
 
     case inject_git().clone([git_repo_url, local_path]) do
       {:ok, %Git.Repository{path: path}} ->
