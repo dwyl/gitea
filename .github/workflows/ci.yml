@@ -37,7 +37,7 @@ jobs:
       env:
         MIX_ENV: test
         GITEA_URL: gitea-server.fly.dev
-        GITEA_ACCESS_TOKEN: ${{ secrets.GOGS_ACCESS_TOKEN }}
-        GIT_TEMP_DIR_PATH: $GITHUB_WORKSPACE
+        GITEA_ACCESS_TOKEN: ${{ secrets.GITEA_ACCESS_TOKEN }}
+        GIT_TEMP_DIR_PATH: /tmp
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1

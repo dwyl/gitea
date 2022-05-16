@@ -4,6 +4,7 @@ defmodule Gitea do
   """
 
   alias Gitea.Helpers, as: GA
+  require Logger
 
   # return Git module based on environment
   defp inject_git() do
@@ -24,7 +25,8 @@ defmodule Gitea do
       {:ok, %Git.Repository{path: path}} ->
         {:ok, path}
 
-      {:error, _err} ->
+      {:error, err} ->
+        Logger.debug(err)
         {:error, "couldn't clone repository"}
     end
   end
