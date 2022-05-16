@@ -10,13 +10,13 @@ defmodule Gitea do
   so we have adopted a "hybrid" approach.
 
   If anything is unclear, please open an issue:
-  [github.com/dwyl/**giteas/issues**](https://github.com/dwyl/giteas/issues)
+  [github.com/dwyl/**gitea/issues**](https://github.com/dwyl/gitea/issues)
   """
   import Gitea.Helpers
   require Logger
 
-  @mock Application.compile_env(:giteas, :mock)
-  Logger.debug("Gitea > config :giteas, mock: #{to_string(@mock)}")
+  @mock Application.compile_env(:gitea, :mock)
+  Logger.debug("Gitea > config :gitea, mock: #{to_string(@mock)}")
   @git (@mock && Gitea.GitMock) || Git
 
   @doc """
@@ -71,7 +71,7 @@ defmodule Gitea do
   ```sh
   GET /repos/:username/:reponame/raw/:branchname/:path
   ```
-  Ref: https://github.com/giteas/docs-api/blob/master/Repositories/Contents.md#get-contents
+  Ref: https://github.com/gitea/docs-api/blob/master/Repositories/Contents.md#get-contents
   """
   @spec remote_read_raw(String.t(), String.t(), String.t(), String.t()) ::
           {:ok, map} | {:error, any}
@@ -94,7 +94,7 @@ defmodule Gitea do
   ```sh
   POST /markdown/raw
   ```
-  Ref: https://github.com/dwyl/giteas/issues/23
+  Ref: https://github.com/dwyl/gitea/issues/23
   """
   @spec remote_render_markdown_html(String.t(), String.t(), String.t(), String.t()) ::
           {:ok, map} | {:error, any}
@@ -107,7 +107,7 @@ defmodule Gitea do
 
     url = api_base_url() <> "markdown/raw"
     Logger.info("remote_render_markdown_html/4 #{url}")
-    # temp_context = "https://github.com/giteas/giteas"
+    # temp_context = "https://github.com/gitea/gitea"
     # Ask Gitea to redner the Raw Markdown to HTML:
     Gitea.Http.post_raw_html(url, raw_markdown)
     # I agree, this is clunky ... We wont use it for latency-sensitive apps.

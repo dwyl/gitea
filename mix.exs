@@ -1,11 +1,11 @@
-defmodule Giteas.MixProject do
+defmodule Gitea.MixProject do
   use Mix.Project
 
   @elixir_requirement "~> 1.9"
 
   def project do
     [
-      app: :giteas,
+      app: :gitea,
       version: "1.1.0",
       elixir: @elixir_requirement,
       start_permanent: Mix.env() == :prod,
@@ -20,7 +20,7 @@ defmodule Giteas.MixProject do
       aliases: aliases(),
       deps: deps(),
       package: package(),
-      description: "Simple Elixir interface with a Giteas (Git) Server"
+      description: "Simple Elixir interface with a Gitea (Git) Server"
     ]
   end
 
@@ -70,10 +70,10 @@ defmodule Giteas.MixProject do
   defp package() do
     [
       files: ~w(lib LICENSE mix.exs README.md test-repo),
-      name: "giteas",
+      name: "gitea",
       licenses: ["GPL-2.0-or-later"],
       maintainers: ["dwyl"],
-      links: %{"GitHub" => "https://github.com/dwyl/giteas"}
+      links: %{"GitHub" => "https://github.com/dwyl/gitea"}
     ]
   end
 end

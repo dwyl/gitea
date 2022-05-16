@@ -7,11 +7,11 @@ defmodule Gitea.HTTPoisonMock do
   If you know of a better way of doing this
   (preferably without introducing more dependencies ...)
   Please share:
-  [github.com/dwyl/**giteas/issues**](https://github.com/dwyl/giteas/issues)
+  [github.com/dwyl/**gitea/issues**](https://github.com/dwyl/gitea/issues)
   """
   require Logger
   @remote_repo_create_response_body %{
-    clone_url: "https://giteas-server.fly.dev/myorg/replacethis.git",
+    clone_url: "https://gitea-server.fly.dev/myorg/replacethis.git",
     # created_at: "0001-01-01T00:00:00Z",
     # default_branch: "public-repo",
     # description: "replacethis",
@@ -19,13 +19,13 @@ defmodule Gitea.HTTPoisonMock do
     fork: false,
     forks_count: 0,
     full_name: "myorg/replacethis",
-    html_url: "https://giteas-server.fly.dev/myorg/replacethis",
+    html_url: "https://gitea-server.fly.dev/myorg/replacethis",
     # id: 42,
     mirror: false,
     name: "replacethis",
     open_issues_count: 0,
     owner: %{
-      avatar_url: "https://giteas-server.fly.dev/avatars/2",
+      avatar_url: "https://gitea-server.fly.dev/avatars/2",
       email: "",
       full_name: "",
       id: 2,
@@ -36,7 +36,7 @@ defmodule Gitea.HTTPoisonMock do
     permissions: %{admin: true, pull: true, push: true},
     private: false,
     # size: 0,
-    ssh_url: "ssh://git@giteas-server.fly.dev:10022/myorg/replacethis.git",
+    ssh_url: "ssh://git@gitea-server.fly.dev:10022/myorg/replacethis.git",
     stars_count: 0,
     # updated_at: "0001-01-01T00:00:00Z",
     # watchers_count: 0,
@@ -46,11 +46,11 @@ defmodule Gitea.HTTPoisonMock do
   # make a valid response body for testing
   def make_repo_create_post_response_body(repo_name) do
     Map.merge(@remote_repo_create_response_body, %{
-      clone_url: "https://giteas-server.fly.dev/myorg/#{repo_name}.git",
+      clone_url: "https://gitea-server.fly.dev/myorg/#{repo_name}.git",
       # description: repo_name,
       full_name: "myorg/#{repo_name}",
-      html_url: "https://giteas-server.fly.dev/myorg/#{repo_name}",
-      ssh_url: "ssh://git@giteas-server.fly.dev:10022/myorg/#{repo_name}.git",
+      html_url: "https://gitea-server.fly.dev/myorg/#{repo_name}",
+      ssh_url: "ssh://git@gitea-server.fly.dev:10022/myorg/#{repo_name}.git",
       # readme: repo_name,
       name: repo_name
     })

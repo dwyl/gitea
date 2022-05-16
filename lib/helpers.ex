@@ -2,20 +2,20 @@ defmodule Gitea.Helpers do
   @moduledoc """
   Helper functions that can be unit tested independently of the main functions.
   If you spot any way to make these better, please share:
-  https://github.com/dwyl/giteas/issues
+  https://github.com/dwyl/gitea/issues
   """
   require Logger
   # @env_required ~w/GOGS_URL GOGS_SSH_PORT GOGS_ACCESS_TOKEN/
   @cwd File.cwd!()
   @git_dir Envar.get("GIT_TEMP_DIR_PATH", @cwd)
-  @mock Application.compile_env(:giteas, :mock)
+  @mock Application.compile_env(:gitea, :mock)
 
   @doc """
   `api_base_url/0` returns the `Gitea` Server REST API url for API requests.
 
   ## Examples
     iex> Gitea.Helpers.api_base_url()
-    "https://giteas-server.fly.dev/api/v1/"
+    "https://gitea-server.fly.dev/api/v1/"
   """
   @spec api_base_url() :: String.t()
   def api_base_url do
@@ -27,8 +27,8 @@ defmodule Gitea.Helpers do
   If the `port` is set it will be a custom Gitea instance.
 
   ## Examples
-    iex> Gitea.Helpers.make_url("giteas-server.fly.dev", "10022")
-    "ssh://git@giteas-server.fly.dev:10022/"
+    iex> Gitea.Helpers.make_url("gitea-server.fly.dev", "10022")
+    "ssh://git@gitea-server.fly.dev:10022/"
 
     iex> Gitea.Helpers.make_url("github.com")
     "git@github.com:"
@@ -80,7 +80,7 @@ defmodule Gitea.Helpers do
 
   @doc """
   `get_org_name_from_url/1` extracts the organisation name from a .git url.
-  ssh://git@giteas-server.fly.dev:10022/theorg/myrepo.git
+  ssh://git@gitea-server.fly.dev:10022/theorg/myrepo.git
   """
   @spec get_org_name_from_url(String.t()) :: String.t()
   def get_org_name_from_url(url) do

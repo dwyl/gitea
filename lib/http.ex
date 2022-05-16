@@ -4,12 +4,12 @@ defmodule Gitea.Http do
   Should be self-explanatory.
   Each function documented & typespecd.
   If anything is unclear, please open an issue:
-  [github.com/dwyl/**giteas/issues**](https://github.com/dwyl/giteas/issues)
+  [github.com/dwyl/**gitea/issues**](https://github.com/dwyl/gitea/issues)
   """
   require Logger
 
-  @mock Application.compile_env(:giteas, :mock)
-  Logger.debug("GiteaHttp > config :giteas, mock: #{to_string(@mock)}")
+  @mock Application.compile_env(:gitea, :mock)
+  Logger.debug("GiteaHttp > config :gitea, mock: #{to_string(@mock)}")
   @httpoison (@mock && Gitea.HTTPoisonMock) || HTTPoison
 
   defp access_token do

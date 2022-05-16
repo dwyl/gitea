@@ -13,7 +13,7 @@ defmodule Gitea.GitMock do
   is used in downstream tests to speed up suite execution.
 
     ## Examples
-    iex> GitMock.clone("ssh://giteas-server.fly.dev:10022/myorg/public-repo.git")
+    iex> GitMock.clone("ssh://gitea-server.fly.dev:10022/myorg/public-repo.git")
     {:ok, %Git.Repository{path: "/path/to/public-repo"}}
 
     iex> GitMock.clone("any-url-containing-the-word-error-to-trigger-failure")
@@ -22,7 +22,7 @@ defmodule Gitea.GitMock do
   @spec clone(String.t() | list(String.t())) :: {:ok, Git.Repository.t()} | {:error, Git.Error}
   def clone(url) do
     case Useful.typeof(url) do
-      # e.g: ["ssh://git@giteas.dev/myorg/error-test.git", "tmp/test-repo"]
+      # e.g: ["ssh://git@Gitea.dev/myorg/error-test.git", "tmp/test-repo"]
       # recurse using just the url (String) portion of the list:
       "list" ->
         url |> List.first() |> clone()
@@ -44,12 +44,12 @@ defmodule Gitea.GitMock do
 
     ## Examples
     iex> GitMock.push("my-repo")
-    {:ok, "To ssh://giteas-server.fly.dev:10022/myorg/my-repo.git\n"}
+    {:ok, "To ssh://gitea-server.fly.dev:10022/myorg/my-repo.git\n"}
   """
   @spec push(Git.Repository.t(), [any]) :: {:ok, any}
   def push(%Git.Repository{path: repo_path}, _args) do
     Logger.info("Gitea.GitMock.push #{repo_path}")
     repo_name = Gitea.Helpers.get_repo_name_from_url(repo_path <> ".git")
-    {:ok, "To ssh://giteas-server.fly.dev:10022/myorg/#{repo_name}.git\n"}
+    {:ok, "To ssh://gitea-server.fly.dev:10022/myorg/#{repo_name}.git\n"}
   end
 end
