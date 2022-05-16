@@ -4,11 +4,24 @@ defmodule Gitea do
   """
 
   alias Gitea.Helpers, as: GH
+  alias Gitea.API, as: API
   require Logger
 
   # return Git module based on environment
   defp inject_git() do
     Git
+  end
+
+  @doc """
+  `remote_repo_create/3` accepts 3 arguments: `org_name`, `repo_name` & `private`.
+  It creates a repo on the remote `Gitea` define
+  For convenience it assumes that you only have _one_ `Gogs` instance.
+  If you have more or different requirements, please share!
+  """
+  # @spec remote_repo_create(String.t(), String.t(), list(any()))) :: {:ok, map} | {:error, any}
+  def remote_repo_create(org_name, repo_name, opts \\ []) do
+    API.create_repo(org_name, repo_name, opts)
+    # Gogs.Http.post(url, params)
   end
 
   @doc """

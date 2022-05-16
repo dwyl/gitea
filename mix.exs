@@ -31,6 +31,8 @@ defmodule Gitea.MixProject do
   defp deps do
     [
       {:git_cli, "~> 0.3.0"},
+      {:req, "~> 0.2.2"},
+      # {:req, github: "wojtekmach/req"},
       {:credo, "~> 1.6.4", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.1", only: [:dev], runtime: false},
       {:excoveralls, "~> 0.14.4", only: :test}
