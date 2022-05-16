@@ -7,6 +7,13 @@ defmodule Gitea.MixProject do
       version: "0.1.0",
       elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        c: :test,
+        coveralls: :test,
+        "coveralls.html": :test,
+        "coveralls.json": :test
+      ],
       deps: deps(),
       description: "Elixir interface for Gitea server",
       package: package()
@@ -22,7 +29,12 @@ defmodule Gitea.MixProject do
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
-    [{:git_cli, "~> 0.3.0"}]
+    [
+      {:git_cli, "~> 0.3.0"},
+      {:credo, "~> 1.6.4", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.1", only: [:dev], runtime: false},
+      {:excoveralls, "~> 0.14.4", only: :test}
+    ]
   end
 
   defp package() do
