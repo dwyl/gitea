@@ -48,4 +48,28 @@ defmodule Gitea.API do
       {:error, _reason} -> {:error, "Couldn't delete repository"}
     end
   end
+
+  def create_org(org_name) do
+    url = api_base_url() <> "orgs"
+    token = Application.get_env(:gitea, :gitea_access_token)
+
+    json = %{
+      descriptions: "org description",
+      full_name: "org fullname",
+      username: org_name,
+      visibility: "public"
+    }
+
+    headers = [
+      {"Authorization", "token #{token}"},
+      {"Accept", "application/json"}
+    ]
+
+    case Req.build(:post, url, headers: headers, body: {:json, json})
+         |> Req.encode_body()
+         |> Req.run() do
+      {:ok, response} -> {:ok, response}
+      {:error, reason} -> {:error, reason}
+    end
+  end
 end

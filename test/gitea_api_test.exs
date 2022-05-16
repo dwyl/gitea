@@ -7,8 +7,11 @@ defmodule GiteaApiTest do
     API.create_repo("githubci", "new_repo", [])
 
     API.delete_repo("githubci", "new_repo")
-    |> IO.inspect()
 
     assert true
+  end
+
+  test "create org" do
+    API.create_org("test-org") |> IO.inspect()
   end
 end
