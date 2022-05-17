@@ -52,16 +52,14 @@ defmodule Gitea do
   The second argument opts is a keyword list value
   and define the description, full_name and visibility
   """
-  @spec remote_org_create(String.t(), list()) :: {:ok, map} | {:error, any}
-  def remote_org_create(org_name, opts \\ []) do
+  @spec remote_org_create(%{
+          required(:username) => String.t(),
+          optional(:description) => String.t(),
+          optional(:full_name) => String.t(),
+          optional(:visibility) => String.t()
+        }) :: {:ok, map} | {:error, any}
+  def remote_org_create(params) do
     url = api_base_url() <> "orgs"
-
-    params = %{
-      descriptions: opts[:description] || "org description",
-      full_name: opts[:full_name] || org_name,
-      username: org_name,
-      visibility: opts[:visibility] || "private"
-    }
 
     Gitea.Http.post(url, params)
   end

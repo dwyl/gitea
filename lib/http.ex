@@ -40,6 +40,10 @@ defmodule Gitea.Http do
   """
   @spec parse_body_response({atom, String.t()} | {:error, any}) :: {:ok, map} | {:error, any}
   def parse_body_response({:error, err}), do: {:error, err}
+  # Deleting a repository or an organisation returns an empty string for the body value
+  # Instead of returning {:error, :no_body) (see next parse_body_response definition) 
+  # the function returns {:ok, response} when the status code response is 204
+  # see https://github.com/dwyl/gitea/pull/8#discussion_r874618485
   def parse_body_response({:ok, response = %{status_code: 204}}), do: {:ok, response}
 
   def parse_body_response({:ok, response}) do
