@@ -10,6 +10,7 @@ defmodule Gitea.HTTPoisonMock do
   [github.com/dwyl/**gitea/issues**](https://github.com/dwyl/gitea/issues)
   """
   require Logger
+
   @remote_repo_create_response_body %{
     clone_url: "https://gitea-server.fly.dev/myorg/replacethis.git",
     # created_at: "0001-01-01T00:00:00Z",
@@ -56,10 +57,11 @@ defmodule Gitea.HTTPoisonMock do
     })
   end
 
-  @raw_response {:ok, %HTTPoison.Response{
-    body: "# public-repo\n\nplease don't update this. the tests read it.",
-    status_code: 200
-  }}
+  @raw_response {:ok,
+                 %HTTPoison.Response{
+                   body: "# public-repo\n\nplease don't update this. the tests read it.",
+                   status_code: 200
+                 }}
 
   @doc """
   `get/2` mocks the HTTPoison.get/2 function when parameters match test vars.
@@ -67,14 +69,18 @@ defmodule Gitea.HTTPoisonMock do
   """
   def get(url, _headers) do
     Logger.debug("Gitea.HTTPoisonMock.get/2 #{url}")
+
     case String.contains?(url, "/raw/") do
       true ->
         @raw_response
+
       false ->
         repo_name = Gitea.Helpers.get_repo_name_from_url(url)
+
         response_body =
           make_repo_create_post_response_body(repo_name)
           |> Jason.encode!()
+
         {:ok, %HTTPoison.Response{body: response_body, status_code: 200}}
     end
   end
@@ -85,14 +91,25 @@ defmodule Gitea.HTTPoisonMock do
   """
   def post(url, body, headers) do
     Logger.debug("Gitea.HTTPoisonMock.post/3 #{url}")
-    if String.contains?(url, "markdown/raw") do
-      post_raw_html(url, body, headers)
-    else
-      body_map = Jason.decode!(body) |> Useful.atomize_map_keys()
-      response_body =
-        make_repo_create_post_response_body(body_map.name)
-        |> Jason.encode!()
-      {:ok, %HTTPoison.Response{body: response_body, status_code: 200}}
+
+    cond do
+      url =~ "markdown/raw" ->
+        post_raw_html(url, body, headers)
+
+        url =~ "/repos/"
+        body_map = Jason.decode!(body) |> Useful.atomize_map_keys()
+
+        response_body =
+          make_repo_create_post_response_body(body_map.name)
+          |> Jason.encode!()
+
+        {:ok, %HTTPoison.Response{body: response_body, status_code: 200}}
+
+      url =~ "/orgs" ->
+        {:ok, %HTTPoison.Response{body: Jason.encode!(""), status_code: 200}}
+
+      true ->
+        {:error, "post url not found"}
     end
   end
 
@@ -116,9 +133,11 @@ defmodule Gitea.HTTPoisonMock do
   """
   def delete(url) do
     Logger.debug("Gitea.HTTPoisonMock.delete/1 #{url}")
-    {:ok, %HTTPoison.Response{
-      body: Jason.encode!(%{deleted: List.first(String.split(url, "?"))}),
-      status_code: 200
-    }}
+
+    {:ok,
+     %HTTPoison.Response{
+       body: Jason.encode!(%{deleted: List.first(String.split(url, "?"))}),
+       status_code: 200
+     }}
   end
 end

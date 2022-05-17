@@ -48,6 +48,23 @@ defmodule Gitea do
   end
 
   @doc """
+  Create an organisation on Gitea
+  """
+  @spec create_organisation(String.t(), list()) :: {:ok, map} | {:error, any}
+  def create_organisation(org_name, opts \\ []) do
+    url = api_base_url() <> "orgs"
+
+    params = %{
+      descriptions: opts[:description] || "org description",
+      full_name: opts[:full_name] || org_name,
+      username: org_name,
+      visibility: opts[:visibility] || "private"
+    }
+
+    Gitea.Http.post(url, params)
+  end
+
+  @doc """
   `remote_repo_delete/2` accepts two arguments: `org_name` and `repo_name`.
   It deletes the repo on the remote `Gitea` instance as defined
   by the environment variable `GITEA_URL`.
