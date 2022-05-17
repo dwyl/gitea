@@ -23,21 +23,18 @@ defmodule Gitea.Helpers do
   end
 
   @doc """
-  `make_url/2` constructs the URL based on the supplied git `url` and TCP `port`.
-  If the `port` is set it will be a custom Gitea instance.
+  `make_url/1` constructs the URL based on the supplied git `url`.
 
   ## Examples
-    iex> Gitea.Helpers.make_url("gitea-server.fly.dev", "10022")
-    "ssh://git@gitea-server.fly.dev:10022/"
+    iex> Gitea.Helpers.make_url("gitea-server.fly.dev")
+    "git@gitea-server.fly.dev:"
 
     iex> Gitea.Helpers.make_url("github.com")
     "git@github.com:"
 
   """
-  @spec make_url(String.t(), integer() | nil) :: String.t()
-  def make_url(git_url, port \\ 0)
-  def make_url(git_url, port) when port > 0, do: "ssh://git@#{git_url}:#{port}/"
-  def make_url(git_url, _port), do: "git@#{git_url}:"
+  @spec make_url(String.t()) :: String.t()
+  def make_url(git_url), do: "git@#{git_url}:"
 
   @doc """
   `remote_url/3` returns the git remote url.
@@ -53,8 +50,7 @@ defmodule Gitea.Helpers do
   @spec remote_url_ssh(String.t(), String.t()) :: String.t()
   def remote_url_ssh(org, repo) do
     url = Envar.get("GITEA_URL")
-    port = Envar.get("GITEA_SSH_PORT", nil)
-    git_url = Gitea.Helpers.make_url(url, port)
+    git_url = make_url(url)
     remote_url(git_url, org, repo)
   end
 
