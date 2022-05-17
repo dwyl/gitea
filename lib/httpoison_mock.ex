@@ -102,16 +102,24 @@ defmodule Gitea.HTTPoisonMock do
   def post(url, body, headers) do
     Logger.debug("Gitea.HTTPoisonMock.post/3 #{url}")
 
-    if String.contains?(url, "markdown/raw") do
-      post_raw_html(url, body, headers)
-    else
-      body_map = Jason.decode!(body) |> Useful.atomize_map_keys()
+    cond do
+      url =~ "markdown/raw" ->
+        post_raw_html(url, body, headers)
 
-      response_body =
-        make_repo_create_post_response_body(body_map.name)
-        |> Jason.encode!()
+      url =~ "/repo" ->
+        body_map = Jason.decode!(body) |> Useful.atomize_map_keys()
 
-      {:ok, %HTTPoison.Response{body: response_body, status_code: 200}}
+        response_body =
+          make_repo_create_post_response_body(body_map.name)
+          |> Jason.encode!()
+
+        {:ok, %HTTPoison.Response{body: response_body, status_code: 200}}
+
+      url =~ "/orgs" ->
+        {:ok, %HTTPoison.Response{body: Jason.encode!(%{username: "new_org"}), status_code: 200}}
+
+      true ->
+        {:ok, %HTTPoison.Response{body: Jason.encode!(""), status_code: 404}}
     end
   end
 
@@ -135,11 +143,22 @@ defmodule Gitea.HTTPoisonMock do
   """
   def delete(url) do
     Logger.debug("Gitea.HTTPoisonMock.delete/1 #{url}")
+    # check delete request endpooints
+    cond do
+      # match delete org
+      url =~ "/orgs" ->
+        {:ok,
+         %HTTPoison.Response{
+           body: "",
+           status_code: 204
+         }}
 
-    {:ok,
-     %HTTPoison.Response{
-       body: Jason.encode!(%{deleted: List.first(String.split(url, "?"))}),
-       status_code: 200
-     }}
+      true ->
+        {:ok,
+         %HTTPoison.Response{
+           body: Jason.encode!(%{deleted: List.first(String.split(url, "?"))}),
+           status_code: 200
+         }}
+    end
   end
 end

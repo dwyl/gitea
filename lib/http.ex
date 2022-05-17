@@ -40,10 +40,15 @@ defmodule Gitea.Http do
   """
   @spec parse_body_response({atom, String.t()} | {:error, any}) :: {:ok, map} | {:error, any}
   def parse_body_response({:error, err}), do: {:error, err}
+  # Deleting a repository or an organisation returns an empty string for the body value
+  # Instead of returning {:error, :no_body) (see next parse_body_response definition) 
+  # the function returns {:ok, response} when the status code response is 204
+  # see https://github.com/dwyl/gitea/pull/8#discussion_r874618485
+  def parse_body_response({:ok, response = %{status_code: 204}}), do: {:ok, response}
 
   def parse_body_response({:ok, response}) do
-    # Logger.debug(response) # very noisy!
     body = Map.get(response, :body)
+
     if body == nil || byte_size(body) == 0 do
       Logger.warning("GiteaHttp.parse_body_response: response body is nil!")
       {:error, :no_body}
@@ -63,6 +68,7 @@ defmodule Gitea.Http do
   @spec get(String.t()) :: {:ok, map} | {:error, any}
   def get(url) do
     Logger.debug("GiteaHttp.get #{url}")
+
     inject_poison().get(url, json_headers())
     |> parse_body_response()
   end
@@ -94,8 +100,9 @@ defmodule Gitea.Http do
     # Logger.debug("raw_markdown: #{raw_markdown}")
     headers = [
       {"Accept", "text/html"},
-      auth_header(),
+      auth_header()
     ]
+
     inject_poison().post(url, raw_markdown, headers)
   end
 
@@ -109,6 +116,7 @@ defmodule Gitea.Http do
   def post(url, params \\ %{}) do
     Logger.debug("GiteaHttp.post #{url}")
     body = Jason.encode!(params)
+
     inject_poison().post(url, body, json_headers())
     |> parse_body_response()
   end
@@ -120,6 +128,7 @@ defmodule Gitea.Http do
   @spec delete(String.t()) :: {:ok, map} | {:error, any}
   def delete(url) do
     Logger.debug("GiteaHttp.delete #{url}")
+
     inject_poison().delete(url <> "?token=#{access_token()}")
     |> parse_body_response()
   end

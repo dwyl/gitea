@@ -48,6 +48,33 @@ defmodule Gitea do
   end
 
   @doc """
+  Create an organisation on Gitea.
+  The second argument opts is a keyword list value
+  and define the description, full_name and visibility
+  """
+  @spec remote_org_create(%{
+          required(:username) => String.t(),
+          optional(:description) => String.t(),
+          optional(:full_name) => String.t(),
+          optional(:visibility) => String.t()
+        }) :: {:ok, map} | {:error, any}
+  def remote_org_create(params) do
+    url = api_base_url() <> "orgs"
+
+    Gitea.Http.post(url, params)
+  end
+
+  @doc """
+  Delete an organisation on Gitea.
+  """
+  @spec remote_org_delete(String.t()) :: {:ok, map} | {:error, any}
+  def remote_org_delete(org_name) do
+    url = api_base_url() <> "orgs/#{org_name}"
+
+    Gitea.Http.delete(url)
+  end
+
+  @doc """
   `remote_repo_delete/2` accepts two arguments: `org_name` and `repo_name`.
   It deletes the repo on the remote `Gitea` instance as defined
   by the environment variable `GITEA_URL`.

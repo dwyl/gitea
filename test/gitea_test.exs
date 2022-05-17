@@ -40,6 +40,24 @@ defmodule GiteaTest do
     Gitea.remote_repo_delete(org_name, repo_name)
   end
 
+  test "remote_org_create\2 create a new organistaion" do
+    org_name = "new_org"
+
+    params = %{
+      username: "new_org",
+      description: "org description",
+      full_name: "new organisation",
+      visibility: "public"
+    }
+
+    {:ok, response} = Gitea.remote_org_create(params)
+
+    assert response.username
+    # delete organisation to allow test to run again
+    {:ok, response_delete} = Gitea.remote_org_delete(org_name)
+    assert response_delete.status_code == 204
+  end
+
   test "remote_repo_create/3 creates a new repo on the gitea server" do
     org_name = "myorg"
     repo_name = test_repo()
