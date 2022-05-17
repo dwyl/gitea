@@ -51,7 +51,7 @@ how we use the package:
 
 <div align="center">
 
-![Phoenix-Gogs-Infra-dagram](https://user-images.githubusercontent.com/194400/167098379-e06ee8ae-d652-4464-83d7-e209d442e9e2.png)
+![Phoenix-Gitea-Infra-dagram](https://user-images.githubusercontent.com/194400/168793143-3cf67409-6330-425e-a0b9-fff4c64e3e7f.png)
 
 </div>
 
