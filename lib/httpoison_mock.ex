@@ -91,12 +91,13 @@ defmodule Gitea.HTTPoisonMock do
   """
   def post(url, body, headers) do
     Logger.debug("Gitea.HTTPoisonMock.post/3 #{url}")
+    IO.inspect(url)
 
     cond do
       url =~ "markdown/raw" ->
         post_raw_html(url, body, headers)
 
-        url =~ "/repos/"
+      url =~ "/repo" ->
         body_map = Jason.decode!(body) |> Useful.atomize_map_keys()
 
         response_body =
