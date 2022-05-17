@@ -50,8 +50,8 @@ defmodule Gitea do
   @doc """
   Create an organisation on Gitea
   """
-  @spec create_organisation(String.t(), list()) :: {:ok, map} | {:error, any}
-  def create_organisation(org_name, opts \\ []) do
+  @spec remote_org_create(String.t(), list()) :: {:ok, map} | {:error, any}
+  def remote_org_create(org_name, opts \\ []) do
     url = api_base_url() <> "orgs"
 
     params = %{
@@ -62,6 +62,16 @@ defmodule Gitea do
     }
 
     Gitea.Http.post(url, params)
+  end
+
+  @doc """
+  Create an organisation on Gitea
+  """
+  @spec remote_org_delete(String.t()) :: {:ok, map} | {:error, any}
+  def remote_org_delete(org_name) do
+    url = api_base_url() <> "orgs/#{org_name}"
+
+    Gitea.Http.delete(url)
   end
 
   @doc """
