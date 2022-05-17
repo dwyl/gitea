@@ -43,7 +43,6 @@ defmodule GiteaTest do
   test "create_organistaion\2 create a new organistaion" do
     org_name = "new_org"
     {:ok, response} = Gitea.create_organisation(org_name)
-    IO.inspect(response)
   end
 
   test "remote_repo_create/3 creates a new repo on the gitea server" do

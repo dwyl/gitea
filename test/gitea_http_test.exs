@@ -19,7 +19,7 @@ defmodule Gitea.HttpTest do
     {:ok, response} = Gitea.Http.get(url)
     # remove unpredictable fields from response when mock:false
     drop_fields =
-      ~w(created_at default_branch description id readme size updated_at watchers_count)a
+      ~w(created_at default_branch description id readme size updated_at watchers_count owner)a
 
     response = Map.drop(response, drop_fields)
     mock_response = Gitea.HTTPoisonMock.make_repo_create_post_response_body(repo_name)

@@ -37,4 +37,11 @@ defmodule HttPoisonMockTest do
     assert status == 200
     assert body == Gitea.HTTPoisonMock.raw_html()
   end
+
+  test "Gitea.HTTPoisonMock.post when url is not supported should return status 404" do
+    {:ok, %HTTPoison.Response{status_code: status, body: body}} =
+      Gitea.HTTPoisonMock.post("/not-defined", "any", "any")
+
+    assert status == 404
+  end
 end
