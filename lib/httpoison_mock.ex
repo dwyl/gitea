@@ -10,37 +10,48 @@ defmodule Gitea.HTTPoisonMock do
   [github.com/dwyl/**gitea/issues**](https://github.com/dwyl/gitea/issues)
   """
   require Logger
+
   @remote_repo_create_response_body %{
-    clone_url: "https://gitea-server.fly.dev/myorg/replacethis.git",
-    # created_at: "0001-01-01T00:00:00Z",
-    # default_branch: "public-repo",
-    # description: "replacethis",
-    empty: false,
-    fork: false,
-    forks_count: 0,
-    full_name: "myorg/replacethis",
-    html_url: "https://gitea-server.fly.dev/myorg/replacethis",
-    # id: 42,
-    mirror: false,
-    name: "replacethis",
-    open_issues_count: 0,
-    owner: %{
-      avatar_url: "https://gitea-server.fly.dev/avatars/2",
-      email: "",
-      full_name: "",
-      id: 2,
-      login: "myorg",
-      username: "myorg"
-    },
-    parent: nil,
-    permissions: %{admin: true, pull: true, push: true},
-    private: false,
-    # size: 0,
-    ssh_url: "ssh://git@gitea-server.fly.dev:10022/myorg/replacethis.git",
+    allow_rebase_explicit: true,
     stars_count: 0,
-    # updated_at: "0001-01-01T00:00:00Z",
-    # watchers_count: 0,
-    website: ""
+    internal: false,
+    empty: false,
+    ssh_url: "git@gitea-server.fly.dev:myorg/public-repo.git",
+    mirror: false,
+    avatar_url: "",
+    mirror_updated: "0001-01-01T00:00:00Z",
+    allow_merge_commits: true,
+    repo_transfer: nil,
+    allow_squash_merge: true,
+    archived: false,
+    parent: nil,
+    name: "public-repo",
+    has_wiki: true,
+    release_counter: 0,
+    private: false,
+    forks_count: 0,
+    has_pull_requests: true,
+    open_pr_counter: 0,
+    mirror_interval: "",
+    has_projects: true,
+    clone_url: "https://gitea-server.fly.dev/myorg/public-repo.git",
+    template: false,
+    fork: false,
+    has_issues: true,
+    full_name: "myorg/public-repo",
+    website: "",
+    ignore_whitespace_conflicts: false,
+    original_url: "",
+    html_url: "https://gitea-server.fly.dev/myorg/public-repo",
+    open_issues_count: 0,
+    default_merge_style: "merge",
+    internal_tracker: %{
+      allow_only_contributors_to_track_time: true,
+      enable_issue_dependencies: true,
+      enable_time_tracker: true
+    },
+    permissions: %{admin: true, pull: true, push: true},
+    allow_rebase: true
   }
 
   # make a valid response body for testing
@@ -50,16 +61,17 @@ defmodule Gitea.HTTPoisonMock do
       # description: repo_name,
       full_name: "myorg/#{repo_name}",
       html_url: "https://gitea-server.fly.dev/myorg/#{repo_name}",
-      ssh_url: "ssh://git@gitea-server.fly.dev:10022/myorg/#{repo_name}.git",
+      ssh_url: "git@gitea-server.fly.dev:myorg/#{repo_name}.git",
       # readme: repo_name,
       name: repo_name
     })
   end
 
-  @raw_response {:ok, %HTTPoison.Response{
-    body: "# public-repo\n\nplease don't update this. the tests read it.",
-    status_code: 200
-  }}
+  @raw_response {:ok,
+                 %HTTPoison.Response{
+                   body: "# public-repo\n\nplease don't update this. the tests read it.",
+                   status_code: 200
+                 }}
 
   @doc """
   `get/2` mocks the HTTPoison.get/2 function when parameters match test vars.
@@ -67,14 +79,18 @@ defmodule Gitea.HTTPoisonMock do
   """
   def get(url, _headers) do
     Logger.debug("Gitea.HTTPoisonMock.get/2 #{url}")
+
     case String.contains?(url, "/raw/") do
       true ->
         @raw_response
+
       false ->
         repo_name = Gitea.Helpers.get_repo_name_from_url(url)
+
         response_body =
           make_repo_create_post_response_body(repo_name)
           |> Jason.encode!()
+
         {:ok, %HTTPoison.Response{body: response_body, status_code: 200}}
     end
   end
@@ -85,19 +101,22 @@ defmodule Gitea.HTTPoisonMock do
   """
   def post(url, body, headers) do
     Logger.debug("Gitea.HTTPoisonMock.post/3 #{url}")
+
     if String.contains?(url, "markdown/raw") do
       post_raw_html(url, body, headers)
     else
       body_map = Jason.decode!(body) |> Useful.atomize_map_keys()
+
       response_body =
         make_repo_create_post_response_body(body_map.name)
         |> Jason.encode!()
+
       {:ok, %HTTPoison.Response{body: response_body, status_code: 200}}
     end
   end
 
   def raw_html do
-    "<h1>public-repo</h1>\n\n<p>please don&#39;t update this. the tests read it.</p>\n"
+    "<h1 id=\"user-content-public-repo\">public-repo</h1>\n<p>please don&#39;t update this. the tests read it.</p>\n"
   end
 
   @doc """
@@ -116,9 +135,11 @@ defmodule Gitea.HTTPoisonMock do
   """
   def delete(url) do
     Logger.debug("Gitea.HTTPoisonMock.delete/1 #{url}")
-    {:ok, %HTTPoison.Response{
-      body: Jason.encode!(%{deleted: List.first(String.split(url, "?"))}),
-      status_code: 200
-    }}
+
+    {:ok,
+     %HTTPoison.Response{
+       body: Jason.encode!(%{deleted: List.first(String.split(url, "?"))}),
+       status_code: 200
+     }}
   end
 end
