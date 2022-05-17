@@ -131,6 +131,7 @@ defmodule GiteaTest do
 
     # Cleanup!
     teardown_local_and_remote(org_name, repo_name)
+    Git.branch(Gitea.Helpers.local_git_repo(org_name, repo_name), ["-", repo_name])
   end
 
   test "local_branch_create/2 returns error if repo doesn't exist" do

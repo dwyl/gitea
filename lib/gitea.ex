@@ -217,7 +217,7 @@ defmodule Gitea do
   def commit(org_name, repo_name, params) do
     repo = local_git_repo(org_name, repo_name)
     # Add all files in the repo
-    {:ok, _output} = Git.add(repo, ["."])
+    {:ok, _output} = Git.add(repo, [".", "-f"])
     # Commit with message
     {:ok, _output} =
       Git.commit(repo, [
