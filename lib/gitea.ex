@@ -48,7 +48,9 @@ defmodule Gitea do
   end
 
   @doc """
-  Create an organisation on Gitea
+  Create an organisation on Gitea.
+  The second argument opts is a keyword list value
+  and define the description, full_name and visibility
   """
   @spec remote_org_create(String.t(), list()) :: {:ok, map} | {:error, any}
   def remote_org_create(org_name, opts \\ []) do
@@ -65,7 +67,7 @@ defmodule Gitea do
   end
 
   @doc """
-  Create an organisation on Gitea
+  Delete an organisation on Gitea.
   """
   @spec remote_org_delete(String.t()) :: {:ok, map} | {:error, any}
   def remote_org_delete(org_name) do
