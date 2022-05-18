@@ -130,6 +130,7 @@ defmodule GiteaTest do
     assert res == "Switched to a new branch 'draft'\n"
 
     # Cleanup!
+    branch_name = String.replace(branch_name, "\n")
     Git.checkout(%Git.Repository{path: @cwd}, [branch_name]) |> IO.inspect()
     Git.branch(Gitea.Helpers.local_git_repo(org_name, repo_name), ~w(-D draft)) |> IO.inspect()
     teardown_local_and_remote(org_name, repo_name)
