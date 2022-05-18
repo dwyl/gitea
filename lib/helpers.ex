@@ -54,14 +54,34 @@ defmodule Gitea.Helpers do
     remote_url(git_url, org, repo)
   end
 
+  @doc """
+  returns {org, repo} from git url
+  ## Examples
+    iex> Gitea.Helpers.get_org_repo_names("git@gitea-server.fly.dev:myorg/myrepo.git")
+    {"myorg", "myrepo"}
+
+    iex> Gitea.Helpers.get_org_repo_names("ssh://git@gitea-server.fly.dev:10022/theorg/myrepo.git")
+    {"theorg", "myrepo"}
+
+    iex> Gitea.Helpers.get_org_repo_names("https://gitea-server.fly.dev/myorg/public-repo.git")
+    {"myorg", "public-repo"}
+  """
   @spec get_org_repo_names(String.t()) :: {String.t(), String.t()}
-  defp get_org_repo_names(url) do
-    [org, repo] =
+  def get_org_repo_names(url) do
+    if String.starts_with?(url, "git") do
       url
+      |> String.split(":")
+      |> List.last()
+      |> Path.rootname()
+      |> Path.split()
+      |> List.to_tuple()
+    else
+      url
+      |> Path.rootname()
       |> String.split("/")
       |> Enum.take(-2)
-
-    {org, repo}
+      |> List.to_tuple()
+    end
   end
 
   @doc """
@@ -71,7 +91,7 @@ defmodule Gitea.Helpers do
   @spec get_repo_name_from_url(String.t()) :: String.t()
   def get_repo_name_from_url(url) do
     {_org, repo} = get_org_repo_names(url)
-    String.split(repo, ".git") |> List.first()
+    repo
   end
 
   @doc """
