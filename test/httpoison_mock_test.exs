@@ -25,6 +25,11 @@ defmodule HttPoisonMockTest do
     assert body_map.full_name == "myorg/simon"
   end
 
+  test "Gitea.HTTPoisonMock.delete /orgs should return 204 " do
+    {:ok, %HTTPoison.Response{status_code: status}} = Gitea.HTTPoisonMock.delete("/orgs")
+    assert status == 204
+  end
+
   test "Gitea.HTTPoisonMock.delete any url should return status 200" do
     {:ok, %HTTPoison.Response{status_code: status}} = Gitea.HTTPoisonMock.delete("any?url")
     assert status == 200
