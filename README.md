@@ -158,6 +158,8 @@ export GIT_TEMP_DIR_PATH=tmp
 
 > **Note**: the directory **must _already_ exist**.
 > (it won't be created if it's not there ...)
+> Create it if you don't already have it: 
+> `mkdir tmp` followed by `cp -r test-repo tmp`
 
 <br />
 
