@@ -91,7 +91,7 @@ by adding `gitea` to the list of dependencies in your `mix.exs` file:
 ```elixir
 def deps do
   [
-    {:gitea, "~> 1.0.2"},
+    {:gitea, "~> 1.0.3"},
   ]
 end
 ```
@@ -224,7 +224,7 @@ you can read any file inside it.
 org_name = "myorg"
 repo_name = "public-repo"
 file_name = "README.md"
-{:ok, text} == Gitea.local_file_read(org_name, repo_name, file_name)
+{:ok, text} = Gitea.local_file_read(org_name, repo_name, file_name)
 ```
 
 ### 4. _Write_ to a File
