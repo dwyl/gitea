@@ -130,8 +130,8 @@ defmodule GiteaTest do
     assert res == "Switched to a new branch 'draft'\n"
 
     # Cleanup!
-    teardown_local_and_remote(org_name, repo_name)
     {:ok, _} = Git.branch(Gitea.Helpers.local_git_repo(org_name, repo_name), ["-D", repo_name])
+    teardown_local_and_remote(org_name, repo_name)
   end
 
   test "local_branch_create/2 returns error if repo doesn't exist" do
