@@ -91,7 +91,7 @@ by adding `gitea` to the list of dependencies in your `mix.exs` file:
 ```elixir
 def deps do
   [
-    {:gitea, "~> 1.0.1"},
+    {:gitea, "~> 1.0.2"},
   ]
 end
 ```

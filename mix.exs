@@ -6,7 +6,7 @@ defmodule Gitea.MixProject do
   def project do
     [
       app: :gitea,
-      version: "1.0.1",
+      version: "1.0.2",
       elixir: @elixir_requirement,
       start_permanent: Mix.env() == :prod,
       deps: deps(),
