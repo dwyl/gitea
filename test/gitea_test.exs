@@ -123,14 +123,14 @@ defmodule GiteaTest do
     org_name = "myorg"
     repo_name = create_test_git_repo(org_name)
     # # delete draft branch if exists:
-    Git.branch(Gitea.Helpers.local_git_repo(org_name, repo_name), ["-m", repo_name])
+    # Git.branch(Gitea.Helpers.local_git_repo(org_name, repo_name), ["-m", repo_name])
     Git.branch(Gitea.Helpers.local_git_repo(org_name, repo_name), ~w(-D draft))
 
     {:ok, res} = Gitea.local_branch_create(org_name, repo_name, "draft")
     assert res == "Switched to a new branch 'draft'\n"
 
     # Cleanup!
-    {:ok, _} = Git.branch(Gitea.Helpers.local_git_repo(org_name, repo_name), ["-D", repo_name])
+    # {:ok, _} = Git.branch(Gitea.Helpers.local_git_repo(org_name, repo_name), ["-D", repo_name])
     teardown_local_and_remote(org_name, repo_name)
   end
 
