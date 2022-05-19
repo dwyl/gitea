@@ -18,13 +18,13 @@ defmodule Gitea.HelpersTest do
   end
 
   test "make_url/2 returns a valid gitea (Fly.io) Base URL" do
-    git_url = Gitea.Helpers.make_url("gitea-server.fly.dev", "10022")
-    assert git_url == "ssh://git@gitea-server.fly.dev:10022/"
+    git_url = Gitea.Helpers.make_url("gitea-server.fly.dev")
+    assert git_url == "git@gitea-server.fly.dev:"
   end
 
   test "remote_url/3 returns a valid gitea (Fly.io) remote URL" do
-    git_url = Gitea.Helpers.make_url("gitea-server.fly.dev", "10022")
+    git_url = Gitea.Helpers.make_url("gitea-server.fly.dev")
     remote_url = Gitea.Helpers.remote_url(git_url, "nelsonic", "public-repo")
-    assert remote_url == "ssh://git@gitea-server.fly.dev:10022/nelsonic/public-repo.git"
+    assert remote_url == "git@gitea-server.fly.dev:nelsonic/public-repo.git"
   end
 end

@@ -2,7 +2,7 @@
 
 <img alt="Gitea" src="https://user-images.githubusercontent.com/194400/168781665-a52d2c00-8b69-44ae-a10a-7bd1c3932020.svg" width="240"/>
     
-Interface with a **`Gitea`** instance from **`Elixir`**.
+**`Elixir`** interface with a **`Gitea`** instance from .
 
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/dwyl/gitea/Elixir%20CI?label=build&style=flat-square)](https://github.com/dwyl/gitea/actions/workflows/ci.yml)
 [![codecov.io](https://img.shields.io/codecov/c/github/dwyl/gitea/main.svg?style=flat-square)](http://codecov.io/github/dwyl/gitea?branch=main)
@@ -56,14 +56,16 @@ how we use the package:
 </div>
 
 For the complete list of functions,
-please see the docs: https://hexdocs.pm/gitea 📚 
+please see the docs: 
+[hexdocs.pm/**gitea**](https://hexdocs.pm/gitea)
+📚 
 
 # Who? 👤 
 
 This library is used by our (`Phoenix`) GitHub Backup App. <br />
 If you find it helpful for your project,
 please ⭐ on GitHub: 
-[github.com/dwyl/gitea](https://github.com/dwyl/gitea)
+[github.com/dwyl/**gitea**](https://github.com/dwyl/gitea)
 
 
 ## _How_? 💻
@@ -89,7 +91,7 @@ by adding `gitea` to the list of dependencies in your `mix.exs` file:
 ```elixir
 def deps do
   [
-    {:gitea, "~> 1.0.1"}
+    {:gitea, "~> 1.0.3"},
   ]
 end
 ```
@@ -156,6 +158,8 @@ export GIT_TEMP_DIR_PATH=tmp
 
 > **Note**: the directory **must _already_ exist**.
 > (it won't be created if it's not there ...)
+> Create it if you don't already have it: 
+> `mkdir tmp` followed by `cp -r test-repo tmp`
 
 <br />
 
@@ -220,7 +224,7 @@ you can read any file inside it.
 org_name = "myorg"
 repo_name = "public-repo"
 file_name = "README.md"
-{:ok, text} == Gitea.local_file_read(org_name, repo_name, file_name)
+{:ok, text} = Gitea.local_file_read(org_name, repo_name, file_name)
 ```
 
 ### 4. _Write_ to a File

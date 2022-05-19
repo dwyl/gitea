@@ -24,6 +24,8 @@ gitea-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+tmp/test-repo
+tmp/test-repo/README.md
 
 # Don't accidentally commit real environment variables
 .env
