@@ -38,6 +38,7 @@ defmodule Gitea do
     Logger.info("remote_repo_create api endpoint: #{url}")
 
     params = %{
+      auto_init: true,
       name: repo_name,
       private: private,
       description: repo_name,
