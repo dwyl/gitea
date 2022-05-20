@@ -165,6 +165,28 @@ defmodule Gitea do
   end
 
   @doc """
+  `clone/2` clones a remote git repository based on `git_repo_url`.
+  The second argument is a list of string representing where to clone the
+  repository to.
+  The functin returns either {:ok, path} or {:error, reason}
+  """
+  @spec clone(String.t(), list(String.t())) :: {:ok, String.t()} | {:error, any()}
+  def clone(git_repo_url, path) do
+    local_path = create_local_path(path)
+    Logger.info("git clone #{git_repo_url} #{local_path}")
+
+    case inject_git().clone([git_repo_url, local_path]) do
+      {:ok, %Git.Repository{path: path}} ->
+        # Logger.info("Cloned repo: #{git_repo_url} to: #{path}")
+        {:ok, path}
+
+      {:error, git_err} ->
+        Logger.error("Gitea.clone/1 tried to clone #{git_repo_url}, got: #{git_err.message}")
+        {:error, git_err}
+    end
+  end
+
+  @doc """
   `local_branch_create/3` creates a branch with the specified name
   or defaults to "draft".
   """
