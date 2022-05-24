@@ -199,7 +199,7 @@ defmodule Gitea do
   Touches the file in case it doesn't already exist.
   """
   @spec local_file_write_text(String.t(), String.t(), String.t(), String.t()) ::
-          {:ok, Stirng.t()} | {:error, Gitea.Error}
+          {:ok, String.t()} | {:error, Gitea.Error}
   def local_file_write_text(org_name, repo_name, file_name, text) do
     file_path =
       local_repo_path(org_name, repo_name)
