@@ -188,19 +188,21 @@ defmodule Gitea do
   repository to.
   The functin returns either {:ok, path} or {:error, reason}
   """
-  @spec clone(String.t(), list(String.t())) :: {:ok, String.t()} | {:error, any()}
+  @spec clone(String.t(), list(String.t())) :: {:ok, String.t()} | {:error, Gitea.Error}
   def clone(git_repo_url, path) do
     local_path = create_local_path(path)
     Logger.info("git clone #{git_repo_url} #{local_path}")
 
     case inject_git().clone([git_repo_url, local_path]) do
       {:ok, %Git.Repository{path: path}} ->
-        # Logger.info("Cloned repo: #{git_repo_url} to: #{path}")
         {:ok, path}
 
       {:error, git_err} ->
-        Logger.error("Gitea.clone/1 tried to clone #{git_repo_url}, got: #{git_err.message}")
-        {:error, git_err}
+        {:error,
+         %Gitea.Error{
+           message: "git clone #{git_repo_url} failed: #{git_err.message}",
+           reason: :clone_error
+         }}
     end
   end
 
