@@ -41,8 +41,7 @@ defmodule Gitea do
       auto_init: true,
       name: repo_name,
       private: private,
-      description: repo_name,
-      readme: repo_name
+      description: repo_name
     }
 
     Gitea.Http.post(url, params)
@@ -161,6 +160,30 @@ defmodule Gitea do
       {:error, git_err} ->
         Logger.error("Gitea.clone/1 tried to clone #{git_repo_url}, got: #{git_err.message}")
         local_path
+    end
+  end
+
+  @doc """
+  `clone/2` clones a remote git repository based on `git_repo_url`.
+  The second argument is a list of string representing where to clone the
+  repository to.
+  The functin returns either {:ok, path} or {:error, reason}
+  """
+  @spec clone(String.t(), list(String.t())) :: {:ok, String.t()} | {:error, Gitea.Error}
+  def clone(git_repo_url, path) do
+    local_path = create_local_path(path)
+    Logger.info("git clone #{git_repo_url} #{local_path}")
+
+    case inject_git().clone([git_repo_url, local_path]) do
+      {:ok, %Git.Repository{path: path}} ->
+        {:ok, path}
+
+      {:error, git_err} ->
+        {:error,
+         %Gitea.Error{
+           message: "git clone #{git_repo_url} failed: #{git_err.message}",
+           reason: :clone_error
+         }}
     end
   end
 

@@ -105,6 +105,14 @@ defmodule Gitea.Helpers do
   end
 
   @doc """
+  Returns the full system path
+  """
+  @spec create_local_path(list(String.t())) :: binary()
+  def create_local_path(path) do
+    Path.join([temp_dir(@git_dir) | path]) |> Path.expand()
+  end
+
+  @doc """
   `local_repo_path/2` returns the full system path for the cloned repo
   on the `localhost` i.e. the Elixir/Phoenix server that cloned it.
   """
