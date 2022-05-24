@@ -4,8 +4,8 @@ defmodule Gitea.Error do
   defexception message: @message, reason: @reason
 
   @doc """
-  message\1 used to raise error with Gitea.Error struct:
-  raise %Gitea.Error{message: "Gitea error", reason: :gitea_down
+  message/1 used to raise error with Gitea.Error struct:
+  raise %Gitea.Error{message: "Gitea error", reason: :gitea_down}
   """
   @impl true
   def message(%__MODULE__{message: message, reason: reason}) do
@@ -13,7 +13,7 @@ defmodule Gitea.Error do
   end
 
   @doc """
-  exception\1 used with:
+  exception/1 used with:
   raise Gitea.Error, message: "gitea error", reason: :gitea_down
   """
   @impl true
