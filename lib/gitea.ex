@@ -48,25 +48,6 @@ defmodule Gitea do
   end
 
   @doc """
-  Create a new repository for the user linked to the token
-  define with the environment variable GITEA_ACCESS_TOKEN
-  """
-  @spec remote_user_repo_create(String.t(), boolean) :: {:ok, map} | {:error, any}
-  def remote_user_repo_create(repo_name, private \\ false) do
-    url = api_base_url() <> "user/repos"
-    Logger.info("remote_user_repo_create api endpoint: #{url}")
-
-    params = %{
-      auto_init: true,
-      name: repo_name,
-      private: private,
-      description: repo_name
-    }
-
-    Gitea.Http.post(url, params)
-  end
-
-  @doc """
   Create an organisation on Gitea.
   The second argument opts is a keyword list value
   and define the description, full_name and visibility
