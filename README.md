@@ -2,7 +2,7 @@
 
 <img alt="Gitea" src="https://user-images.githubusercontent.com/194400/168781665-a52d2c00-8b69-44ae-a10a-7bd1c3932020.svg" width="240"/>
 
-**`Elixir`** interface with a **`Gitea`** instance from .
+**`Elixir`** interface with a **`Gitea`** instance.
 
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/dwyl/gitea/Elixir%20CI?label=build&style=flat-square)](https://github.com/dwyl/gitea/actions/workflows/ci.yml)
 [![codecov.io](https://img.shields.io/codecov/c/github/dwyl/gitea/main.svg?style=flat-square)](http://codecov.io/github/dwyl/gitea?branch=main)
@@ -21,29 +21,29 @@
 # _Why?_ 💡
 
 We needed an _easy_ way to interact
-with our **`Gitea`** (GitHub Backup) **Server**
+with a **`Gitea`** (GitHub Backup) **Server**
 from our **`Elixir/Phoenix`** App.
 
 > **Note**: We were _briefly_ tempted
 > to write this code _inside_ the Phoenix App
-> that uses it,
+> that uses it, <br />
 > however we quickly realized
 > that having it **_separate_** was better
-> for **_testability/maintainability_**.
+> for **_testability/maintainability_**. <br />
 > Having a _separate_ module enforces a
 > [separation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns)
-> with a strong "API contract".
+> with a strong "API contract". <br />
 > This way we know this package is well-tested,
 > documented and maintained.
 > And can be used and _extended independently_
 > of any `Elixir/Phoenix` app.
-> The `Elixir/Phoenix` app can treat `gitea`
+> The `Elixir/Phoenix` app can treat **`gitea`**
 > as a logically separate/independent entity
 > with a clear interface.
 
 # _What_? 📦
 
-A library for interacting with `gitea` (`git`)
+A library for interacting with **`gitea`** (`git`)
 from `Elixir` apps. <br />
 
 Hopefully this diagram explains
@@ -120,8 +120,8 @@ in your `Elixir/Phoenix` App,
 you will need to have
 a few environment variables defined.
 
-There are **3 _required_**
-and **2 _optional_** variables.
+There are **2 _required_**
+and **1 _optional_** variables.
 Make sure you read through the next section
 to determine if you _need_ the _optional_ ones.
 
@@ -129,7 +129,7 @@ to determine if you _need_ the _optional_ ones.
 
 > See: [`.env_sample`](https://github.com/dwyl/gitea/blob/main/.env_sample)
 
-There are **3 _required_** environment variables:
+There are **2 _required_** environment variables:
 
 1. `GITEA_URL` - the domain where your Gitea Server is deployed,
    without the protocol, e.g: `gitea-server.fly.dev`
@@ -137,15 +137,12 @@ There are **3 _required_** environment variables:
 2. `GITEA_ACCESS_TOKEN` - the REST API Access Token
    See: https://github.com/dwyl/gitea-server#connect-via-rest-api-https
 
-3. `GITEA_SSH_PRIVATE_KEY_PATH` - absolute path to the `id_rsa` file
-   on your `localhost` or `Phoenix` server instance.
-
 ### _Optional_ Environment Variables
 
 #### `GIT_TEMP_DIR_PATH`
 
 If you want to specify a directory where
-you want to clone `git` repos to,
+you want to clone `git` repos to, <br />
 create a `GIT_TEMP_DIR_PATH` environment variable.
 e.g:
 
@@ -153,9 +150,9 @@ e.g:
 export GIT_TEMP_DIR_PATH=tmp
 ```
 
-> **Note**: the directory **must _already_ exist**.
-> (it won't be created if it's not there ...)
-> Create it if you don't already have it:
+> **Note**: the directory **must _already_ exist**.<br />
+> If it doesn't already exist, create it. <br />
+> e.g:
 > `mkdir tmp` followed by `cp -r test-repo tmp`
 
 <br />
@@ -254,6 +251,8 @@ Gitea.push(org_name, repo_name)
     Gitea.remote_read_raw(org_name, repo_name, file_name)
 "Your README.md text"
 ```
+
+<br />
 
 ## Full Function Reference / Docs? 📖
 
