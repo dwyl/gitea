@@ -239,12 +239,18 @@ defmodule Gitea do
   Touches the file in case it doesn't already exist.
   """
   @spec local_file_write_text(String.t(), String.t(), String.t(), String.t()) ::
-          :ok | {:error, any}
+          {:ok, String.t()} | {:error, Gitea.Error}
   def local_file_write_text(org_name, repo_name, file_name, text) do
-    file_path = Path.join([local_repo_path(org_name, repo_name), file_name])
+    file_path =
+      local_repo_path(org_name, repo_name)
+      |> Path.join(file_name)
+
     Logger.info("attempting to write to #{file_path}")
-    File.touch!(file_path)
-    File.write(file_path, text)
+
+    case File.write(file_path, text) do
+      :ok -> {:ok, file_path}
+      {:error, _reason} -> {:error, %Gitea.Error{message: "", reason: :write_file_error}}
+    end
   end
 
   @doc """

@@ -1,8 +1,8 @@
 <div align="center">
 
 <img alt="Gitea" src="https://user-images.githubusercontent.com/194400/168781665-a52d2c00-8b69-44ae-a10a-7bd1c3932020.svg" width="240"/>
-    
-**`Elixir`** interface with a **`Gitea`** instance from .
+
+**`Elixir`** interface with a **`Gitea`** instance.
 
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/dwyl/gitea/Elixir%20CI?label=build&style=flat-square)](https://github.com/dwyl/gitea/actions/workflows/ci.yml)
 [![codecov.io](https://img.shields.io/codecov/c/github/dwyl/gitea/main.svg?style=flat-square)](http://codecov.io/github/dwyl/gitea?branch=main)
@@ -11,6 +11,7 @@
 [![docs](https://img.shields.io/badge/docs-maintained-brightgreen?style=flat-square)](https://hexdocs.pm/gitea/api-reference.html)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square)](https://github.com/dwyl/gitea/issues)
 [![HitCount](http://hits.dwyl.com/dwyl/gitea.svg)](http://hits.dwyl.com/dwyl/gitea)
+
 <!-- uncomment when service is working ...
 [![Inline docs](http://inch-ci.org/github/dwyl/auth.svg?branch=master&style=flat-square)](http://inch-ci.org/github/dwyl/auth)
 -->
@@ -19,34 +20,33 @@
 
 # _Why?_ 💡
 
-We needed an _easy_ way to interact 
-with our **`Gitea`** (GitHub Backup) **Server**
+We needed an _easy_ way to interact
+with a **`Gitea`** (GitHub Backup) **Server**
 from our **`Elixir/Phoenix`** App.
-This package is that interface. 
 
-> **Note**: We were _briefly_ tempted 
-> to write this code _inside_ the Phoenix App 
-> that uses it, 
+> **Note**: We were _briefly_ tempted
+> to write this code _inside_ the Phoenix App
+> that uses it, <br />
 > however we quickly realized
-> that having it ***separate*** was better
-> for ***testability/maintainability***.
+> that having it **_separate_** was better
+> for **_testability/maintainability_**. <br />
 > Having a _separate_ module enforces a
 > [separation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns)
-> with a strong "API contract".
+> with a strong "API contract". <br />
 > This way we know this package is well-tested,
-> documented and maintained. 
-> And can be used and _extended independently_ 
+> documented and maintained.
+> And can be used and _extended independently_
 > of any `Elixir/Phoenix` app.
-> The `Elixir/Phoenix` app can treat `gitea`
+> The `Elixir/Phoenix` app can treat **`gitea`**
 > as a logically separate/independent entity
 > with a clear interface.
 
 # _What_? 📦
 
-A library for interacting with `gitea` (`git`)
+A library for interacting with **`gitea`** (`git`)
 from `Elixir` apps. <br />
 
-Hopefully this diagram explains 
+Hopefully this diagram explains
 how we use the package:
 
 <div align="center">
@@ -56,17 +56,16 @@ how we use the package:
 </div>
 
 For the complete list of functions,
-please see the docs: 
+please see the docs:
 [hexdocs.pm/**gitea**](https://hexdocs.pm/gitea)
-📚 
+📚
 
-# Who? 👤 
+# Who? 👤
 
 This library is used by our (`Phoenix`) GitHub Backup App. <br />
 If you find it helpful for your project,
-please ⭐ on GitHub: 
+please ⭐ on GitHub:
 [github.com/dwyl/**gitea**](https://github.com/dwyl/gitea)
-
 
 ## _How_? 💻
 
@@ -74,18 +73,16 @@ There are a couple of steps to get this working in your project.
 It should only take **`2 mins`** if you already have your
 **`Gitea` Server** _deployed_ (_or access to an existing instance_).
 
-
 > If you want to read a **step-by-step complete beginner's guide**
 > to getting **`gitea`** working in a **`Phoenix`** App,
-> please see: 
+> please see:
 > [github.com/dwyl/**gitea-demo**](https://github.com/dwyl/gitea-demo)
-
 
 <br />
 
 ## Install ⬇️
 
-Install the package from [hex.pm](https://hex.pm/docs/publish), 
+Install the package from [hex.pm](https://hex.pm/docs/publish),
 by adding `gitea` to the list of dependencies in your `mix.exs` file:
 
 ```elixir
@@ -96,8 +93,9 @@ def deps do
 end
 ```
 
-Once you've saved the `mix.exs` file, 
-run: 
+Once you've saved the `mix.exs` file,
+run:
+
 ```sh
 mix deps.get
 ```
@@ -119,36 +117,32 @@ config :gitea, mock: true
 
 For `gitea` to work
 in your `Elixir/Phoenix` App,
-you will need to have 
+you will need to have
 a few environment variables defined.
 
-There are **3 _required_** 
-and **2 _optional_** variables.
+There are **2 _required_**
+and **1 _optional_** variables.
 Make sure you read through the next section
 to determine if you _need_ the _optional_ ones.
-
 
 ### _Required_ Environment Variables
 
 > See: [`.env_sample`](https://github.com/dwyl/gitea/blob/main/.env_sample)
 
-There are **3 _required_** environment variables:
+There are **2 _required_** environment variables:
 
 1. `GITEA_URL` - the domain where your Gitea Server is deployed,
    without the protocol, e.g: `gitea-server.fly.dev`
 
-2. `GITEA_ACCESS_TOKEN` - the REST API Access Token 
-See: https://github.com/dwyl/gitea-server#connect-via-rest-api-https
-
-3. `GITEA_SSH_PRIVATE_KEY_PATH` - absolute path to the `id_rsa` file
-  on your `localhost` or `Phoenix` server instance.
+2. `GITEA_ACCESS_TOKEN` - the REST API Access Token <br />
+   See: https://github.com/dwyl/gitea-server#7-create-access-token-api-key
 
 ### _Optional_ Environment Variables
 
 #### `GIT_TEMP_DIR_PATH`
 
-If you want to specify a directory where 
-you want to clone `git` repos to,
+If you want to specify a directory where
+you want to clone `git` repos to, <br />
 create a `GIT_TEMP_DIR_PATH` environment variable.
 e.g:
 
@@ -156,16 +150,16 @@ e.g:
 export GIT_TEMP_DIR_PATH=tmp
 ```
 
-> **Note**: the directory **must _already_ exist**.
-> (it won't be created if it's not there ...)
-> Create it if you don't already have it: 
+> **Note**: the directory **must _already_ exist**.<br />
+> If it doesn't already exist, create it. <br />
+> e.g:
 > `mkdir tmp` followed by `cp -r test-repo tmp`
 
 <br />
 
 ## Usage
 
-If you just want to _read_ 
+If you just want to _read_
 the contents of a file hosted on
 a `Gitea` Server,
 write code similar to this:
@@ -174,7 +168,7 @@ write code similar to this:
 org_name = "myorg"
 repo_name = "public-repo"
 file_name = "README.md"
-{:ok, %HTTPoison.Response{ body: response_body}} = 
+{:ok, %HTTPoison.Response{ body: response_body}} =
   Gitea.remote_read_raw(org_name, repo_name,file_name)
 # use the response_body (plaintext data)
 ```
@@ -182,11 +176,9 @@ file_name = "README.md"
 This is exactly the use-case presented in our demo app:
 [dwyl/**gitea-demo**#4-create-function](https://github.com/dwyl/gitea-demo#4-create-function-to-interact-with-gitea-repo)
 
-
-
 <br />
 
-Here's a more real-world scenario 
+Here's a more real-world scenario
 in 7 easy steps:
 
 ### 1. _Create_ a New Repo on the Gitea Server
@@ -210,7 +202,7 @@ Gitea.clone(git_repo_url)
 > Provided you have setup the environment variables,
 > and your `Elixir/Phoenix` App has write access to the filesystem,
 > this should work without any issues.
-> We haven't seen any in practice. 
+> We haven't seen any in practice.
 > But if you get stuck at this step,
 > [open an issue](https://github.com/dwyl/gitea/issues)
 
@@ -240,13 +232,13 @@ This will create a new file if it doesn't already exist.
 ### 5. _Commit_ Changes
 
 ```elixir
-{:ok, msg} = Gitea.commit(org_name, repo_name, 
+{:ok, msg} = Gitea.commit(org_name, repo_name,
   %{message: "your commit message", full_name: "Al Ex", email: "alex@dwyl.co"})
 ```
 
 ### 6. _Push_ to `Gitea` Remote
 
-```elixir    
+```elixir
 # Push to Gitea Server this one is easy.
 Gitea.push(org_name, repo_name)
 ```
@@ -255,30 +247,32 @@ Gitea.push(org_name, repo_name)
 
 ```elixir
 # Confirm the README.md was updated on the remote repo:
-{:ok, %HTTPoison.Response{ body: response_body}} = 
+{:ok, %HTTPoison.Response{ body: response_body}} =
     Gitea.remote_read_raw(org_name, repo_name, file_name)
 "Your README.md text"
 ```
 
+<br />
 
-## Full Function Reference / Docs? 📖 
+## Full Function Reference / Docs? 📖
 
-Rather than duplicate all the docs here, 
-please read the complete function reference, 
+Rather than duplicate all the docs here,
+please read the complete function reference,
 on hexdocs: https://hexdocs.pm/gitea/Gitea.html
 
 <br />
 
-## Tests! 
+## Tests!
 
 By default, the tests run with "mocks",
 this means that: <br />
+
 1. Functional tests run faster (0.2 seconds)
 2. Tests that require filesystem access will run on GitHub CI.
-3. We know that functions are appropriately 
-  ["Test Doubled"]
-  so that a downstream `Elixir/Phoenix` app 
-  can run in `mock: true` and tests will be mocked (and thus _fast_!)
+3. We know that functions are appropriately
+   ["Test Doubled"]
+   so that a downstream `Elixir/Phoenix` app
+   can run in `mock: true` and tests will be mocked (and thus _fast_!)
 
 To alter this setting to run the tests _without_ mocks,
 simply change the boolean from:
@@ -302,6 +296,7 @@ When you run the command:
 ```sh
 mix c
 ```
+
 (an alias for `mix coveralls.html`) <br />
 You will see output similar to the following:
 
@@ -327,7 +322,8 @@ update the line in `config/test.exs`:
 ```sh
 config :gitea, mock: false
 ```
-When you run end-to-end tests with coverage tracking: 
+
+When you run end-to-end tests with coverage tracking:
 
 ```sh
 mix c
@@ -351,14 +347,14 @@ COV    FILE                                        LINES RELEVANT   MISSED
 ----------------
 ```
 
-The only difference is the ***time*** it takes to run the test suite. <br />
-The outcome (all tests passing and **100% coverage**) should be ***identical***.
+The only difference is the **_time_** it takes to run the test suite. <br />
+The outcome (all tests passing and **100% coverage**) should be **_identical_**.
 
-If you add a feature to the package, 
-please ensure that the tests pass 
+If you add a feature to the package,
+please ensure that the tests pass
 in both `mock: true` and `mock: false`
-so that we know it works in the _real_ world 
-as well as in the simulated one. 
+so that we know it works in the _real_ world
+as well as in the simulated one.
 
 <br />
 
@@ -369,26 +365,27 @@ so that we can backup our entire organisation, all repos, issues, labels & PRs.
 
 We aren't there yet
 and we might not be for some time.
-The order in which we will be working 
+The order in which we will be working
 on fleshing out the features is:
 
 1. **Git Diff** - using the `Git` module to determine the changes made to a specific file
-  between two Git commits/hashes. This will allow us to visualize the changes made
-  and can therefore _derive_ the contents of a Pull Request 
-  without having the PR feature exposed via the Gitea API.
-  See: https://github.com/dwyl/gogs/issues/27
+   between two Git commits/hashes. This will allow us to visualize the changes made
+   and can therefore _derive_ the contents of a Pull Request
+   without having the PR feature exposed via the Gitea API.
+   See: https://github.com/dwyl/gogs/issues/27
 2. **Issues**: https://github.com/gogs/docs-api/tree/master/Issues
-  + **Comments** - this is the core content of issues. 
-    We need to parse all the data and map it to the fields in `Gitea`.
-  + **Labels** - the primary metadata we use to categorize our issues, 
-    see: https://github.com/dwyl/labels
-  + **Milestones** - used to _group_ issues into batches, e.g. a "sprint" or "feature".
-3. **Repo Stats**: Stars, watchers, forks etc.
-4. **_Your_ Feature Request** Here! 
-Seriously, if you spot a gap in the list of available functions, 
-something you want/need to use `Gitea` in any a more advanced/custom way,
-please open an issue so we can discuss!
 
+- **Comments** - this is the core content of issues.
+  We need to parse all the data and map it to the fields in `Gitea`.
+- **Labels** - the primary metadata we use to categorize our issues,
+  see: https://github.com/dwyl/labels
+- **Milestones** - used to _group_ issues into batches, e.g. a "sprint" or "feature".
+
+3. **Repo Stats**: Stars, watchers, forks etc.
+4. **_Your_ Feature Request** Here!
+   Seriously, if you spot a gap in the list of available functions,
+   something you want/need to use `Gitea` in any a more advanced/custom way,
+   please open an issue so we can discuss!
 
 <br />
 
@@ -408,32 +405,32 @@ we're here to help!
 
 # ⚠️ Disclaimer! ⚠️
 
-This package is provided "**as is**". 
-We make ***no guarantee/warranty*** that it _works_. <br />
+This package is provided "**as is**".
+We make **_no guarantee/warranty_** that it _works_. <br />
 We _cannot_ be held responsible
 for any undesirable effects of it's usage.
 e.g: if you use the [`Gitea.delete/1`](https://hexdocs.pm/gitea/Gitea.html#delete/1)
-it will _permanently/irrecoverably_ **`delete`** the repo. 
+it will _permanently/irrecoverably_ **`delete`** the repo.
 Use it with caution!
 
 With the disclaimer out of the way,
 and your expectations clearly set,
-here are the facts: 
+here are the facts:
 We are using this package in "production".
-We rely on it daily and consider it 
+We rely on it daily and consider it
 ["mission critical"](https://en.wikipedia.org/wiki/Mission_critical).
 It works for _us_ an and
-we have made every effort to document, 
+we have made every effort to document,
 test & _maintain_ it.
 If you want to use it, go for it!
 But please note that we cannot "_support_" your usage
 beyond answering questions on GitHub.
-And unless you have a commercial agreement with 
+And unless you have a commercial agreement with
 [dwyl Ltd.]
 
 If you spot anything that can be improved,
-please open an 
+please open an
 [issue](https://github.com/dwyl/gitea/issues),
-we're very happy to discuss! 
+we're very happy to discuss!
 
 [![feedback welcome](https://img.shields.io/badge/feedback-welcome-brightgreen.svg?style=flat-square)](https://github.com/dwyl/gitea/issues)
