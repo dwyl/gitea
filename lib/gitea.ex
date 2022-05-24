@@ -209,7 +209,7 @@ defmodule Gitea do
 
     case File.write(file_path, text) do
       :ok -> {:ok, file_path}
-      :error -> {:error, %Gitea.Error{message: "", reason: :write_file_error}}
+      {:error, _reason} -> {:error, %Gitea.Error{message: "", reason: :write_file_error}}
     end
   end
 

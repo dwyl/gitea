@@ -161,6 +161,11 @@ defmodule GiteaTest do
     teardown_local_and_remote(org_name, repo_name)
   end
 
+  test "write to non existing directory return error" do
+    assert {:error, %Gitea.Error{}} =
+             Gitea.local_file_write_text("wrongorg", "no-repo", "wrongfile.text", "test fail")
+  end
+
   test "commit/2 creates a commit in the repo" do
     org_name = "myorg"
     repo_name = create_test_git_repo(org_name)
