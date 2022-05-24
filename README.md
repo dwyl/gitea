@@ -134,8 +134,8 @@ There are **2 _required_** environment variables:
 1. `GITEA_URL` - the domain where your Gitea Server is deployed,
    without the protocol, e.g: `gitea-server.fly.dev`
 
-2. `GITEA_ACCESS_TOKEN` - the REST API Access Token
-   See: https://github.com/dwyl/gitea-server#connect-via-rest-api-https
+2. `GITEA_ACCESS_TOKEN` - the REST API Access Token <br />
+   See: https://github.com/dwyl/gitea-server#7-create-access-token-api-key
 
 ### _Optional_ Environment Variables
 
