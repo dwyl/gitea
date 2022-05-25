@@ -32,7 +32,8 @@ defmodule Gitea do
   For convenience it assumes that you only have _one_ `Gitea` instance.
   If you have more or different requirements, please share!
   """
-  @spec remote_repo_create(String.t(), String.t(), boolean) :: {:ok, map} | {:error, any}
+  @spec remote_repo_create(String.t(), String.t(), boolean) ::
+          {:ok, :repo_created} | {:error, Gitea.Error}
   def remote_repo_create(org_name, repo_name, private \\ false) do
     url = api_base_url() <> "org/#{org_name}/repos"
     Logger.info("remote_repo_create api endpoint: #{url}")
