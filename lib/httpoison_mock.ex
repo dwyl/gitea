@@ -106,6 +106,10 @@ defmodule Gitea.HTTPoisonMock do
       url =~ "markdown/raw" ->
         post_raw_html(url, body, headers)
 
+      # create a specific case to similuate error when creating repository
+      url =~ "/org/notfound" ->
+        {:ok, %HTTPoison.Response{status_code: 422}}
+
       url =~ "/repo" ->
         body_map = Jason.decode!(body) |> Useful.atomize_map_keys()
 
