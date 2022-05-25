@@ -61,11 +61,7 @@ defmodule GiteaTest do
   test "remote_repo_create/3 creates a new repo on the gitea server" do
     org_name = "myorg"
     repo_name = test_repo()
-    {:ok, response} = Gitea.remote_repo_create(org_name, repo_name, false)
-    response = Map.drop(response, [:id, :created_at, :updated_at])
-
-    mock_response = Gitea.HTTPoisonMock.make_repo_create_post_response_body(repo_name)
-    assert response.name == mock_response.name
+    {:ok, :repo_created} = Gitea.remote_repo_create(org_name, repo_name, false)
 
     # Cleanup:
     teardown_local_and_remote(org_name, repo_name)
