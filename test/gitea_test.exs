@@ -71,6 +71,15 @@ defmodule GiteaTest do
     teardown_local_and_remote(org_name, repo_name)
   end
 
+  test "remote_repo_create/3 fails to create repo when org not found" do
+    org_name = "notfound"
+    repo_name = "repo"
+    assert {:error, %Gitea.Error{}} = Gitea.remote_repo_create(org_name, repo_name, false)
+
+    # Cleanup:
+    teardown_local_and_remote(org_name, repo_name)
+  end
+
   test "Gitea.remote_read_raw/4 retrieves the contents of the README.md file" do
     org_name = "myorg"
     repo_name = "public-repo"
