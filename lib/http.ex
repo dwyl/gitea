@@ -46,6 +46,10 @@ defmodule Gitea.Http do
   # see https://github.com/dwyl/gitea/pull/8#discussion_r874618485
   def parse_body_response({:ok, response = %{status_code: 204}}), do: {:ok, response}
 
+  # Successful status are in 200..299, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+  def parse_body_response({:ok, %{status_code: status_code}}) when status_code not in 200..299,
+    do: {:error, status_code}
+
   def parse_body_response({:ok, response}) do
     body = Map.get(response, :body)
 

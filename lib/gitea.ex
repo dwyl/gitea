@@ -44,7 +44,16 @@ defmodule Gitea do
       description: repo_name
     }
 
-    Gitea.Http.post(url, params)
+    case Gitea.Http.post(url, params) do
+      {:ok, _status_code} ->
+        {:ok, :repo_created}
+
+      {:error, _reason} ->
+        {:error,
+         %Gitea.Error{
+           message: "Can't create remote repository"
+         }}
+    end
   end
 
   @doc """
