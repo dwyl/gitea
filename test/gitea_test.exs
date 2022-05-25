@@ -105,12 +105,8 @@ defmodule GiteaTest do
     repo = "public-repo"
     git_repo_url = Gitea.Helpers.remote_url_ssh(org, repo)
 
-    path = Gitea.clone(git_repo_url)
+    assert {:ok, path} = Gitea.clone(git_repo_url)
     # assert path == Gitea.Helpers.local_repo_path(repo)
-
-    # Attempt to clone it a second time to test the :error branch:
-    path2 = Gitea.clone(git_repo_url)
-    assert path == path2
 
     # Clean up (but don't delete the remote repo!!)
     delete_local_directory("public-repo")
@@ -120,8 +116,7 @@ defmodule GiteaTest do
     repo = "error"
     org = "myorg"
     git_repo_url = Gitea.Helpers.remote_url_ssh(org, repo)
-    path = Gitea.clone(git_repo_url)
-    assert path == Gitea.Helpers.local_repo_path(org, repo)
+    assert {:error, %Gitea.Error{}} = Gitea.clone(git_repo_url)
   end
 
   test "Gitea.clone/2 clones a known remote repository gitea on Fly.io" do
