@@ -155,7 +155,7 @@ defmodule Gitea do
   `clone/1` clones a remote git repository based on `git_repo_url`
   returns the path of the _local_ copy of the repository.
   """
-  @spec clone(String.t()) :: String.t()
+  @spec clone(String.t()) :: {:ok, String.t()} | {:error, Gitea.Error}
   def clone(git_repo_url) do
     org_name = get_org_name_from_url(git_repo_url)
     repo_name = get_repo_name_from_url(git_repo_url)
@@ -165,11 +165,16 @@ defmodule Gitea do
     case inject_git().clone([git_repo_url, local_path]) do
       {:ok, %Git.Repository{path: path}} ->
         # Logger.info("Cloned repo: #{git_repo_url} to: #{path}")
-        path
+        {:ok, path}
 
       {:error, git_err} ->
         Logger.error("Gitea.clone/1 tried to clone #{git_repo_url}, got: #{git_err.message}")
-        local_path
+
+        {:error,
+         %Gitea.Error{
+           message: "git clone #{git_repo_url} failed: #{git_err.message}",
+           reason: :clone_error
+         }}
     end
   end
 
@@ -241,8 +246,12 @@ defmodule Gitea do
     Logger.info("attempting to write to #{file_path}")
 
     case File.write(file_path, text) do
-      :ok -> {:ok, file_path}
-      {:error, _reason} -> {:error, %Gitea.Error{message: "", reason: :write_file_error}}
+      :ok ->
+        {:ok, file_path}
+
+      {:error, _reason} ->
+        {:error,
+         %Gitea.Error{message: "Couldn't write file in repository", reason: :write_file_error}}
     end
   end
 

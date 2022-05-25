@@ -6,9 +6,9 @@ defmodule Gitea.Helpers do
   """
   require Logger
   # @env_required ~w/GITEA_URL GITEA_ACCESS_TOKEN/
-  @cwd File.cwd!()
-  @git_dir Envar.get("GIT_TEMP_DIR_PATH", @cwd)
   @mock Application.compile_env(:gitea, :mock)
+
+  defp git_dir(), do: Envar.get("GIT_TEMP_DIR_PATH", File.cwd!())
 
   @doc """
   `api_base_url/0` returns the `Gitea` Server REST API url for API requests.
@@ -109,7 +109,7 @@ defmodule Gitea.Helpers do
   """
   @spec create_local_path(list(String.t())) :: binary()
   def create_local_path(path) do
-    Path.join([temp_dir(@git_dir) | path]) |> Path.expand()
+    Path.join([temp_dir(git_dir()) | path]) |> Path.expand()
   end
 
   @doc """
@@ -122,12 +122,12 @@ defmodule Gitea.Helpers do
     if @mock do
       if String.contains?(repo, "no-repo") do
         # in branch test we need to simulate a full path not a test-repo one ...
-        Path.join([temp_dir(@git_dir), org, repo]) |> Path.expand()
+        Path.join([temp_dir(git_dir()), org, repo]) |> Path.expand()
       else
-        Path.join([temp_dir(@git_dir), "test-repo"]) |> Path.expand()
+        Path.join([temp_dir(git_dir()), "test-repo"]) |> Path.expand()
       end
     else
-      Path.join([temp_dir(@git_dir), org, repo]) |> Path.expand()
+      Path.join([temp_dir(git_dir()), org, repo]) |> Path.expand()
     end
 
     # coveralls-ignore-stop
