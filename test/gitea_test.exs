@@ -164,6 +164,17 @@ defmodule GiteaTest do
     Logger.error("test: local_branch_create/1 > error: #{error}")
   end
 
+  test "create_branch/3 create a new branch" do
+    org_name = "myorg"
+    repo_name = create_test_git_repo(org_name)
+
+    assert {:ok, res} = Gitea.create_branch(org_name, repo_name, "my-new-branch")
+    assert {:error, %Gitea.Error{}} = Gitea.create_branch(org_name, repo_name, "my-new-branch")
+
+    Git.branch(Gitea.Helpers.local_git_repo(org_name, repo_name), ["-D", "my-new-branch"])
+    teardown_local_and_remote(org_name, repo_name)
+  end
+
   test "write_text_to_file/3 writes text to a specified file" do
     org_name = "myorg"
     repo_name = create_test_git_repo(org_name)
