@@ -224,7 +224,7 @@ defmodule Gitea do
   @doc """
   `create_branch/3` creates a branch.
   """
-  @spec create_branch(String.t(), String.t(), String.t()) :: {:ok, map} | {:error, Gitea.Error}
+  @spec create_branch(String.t(), String.t(), String.t()) :: {:ok, any} | {:error, Gitea.Error}
   def create_branch(org_name, repo_name, branch_name) do
     case Git.branch(local_git_repo(org_name, repo_name), [branch_name]) do
       {:ok, res} ->
@@ -232,6 +232,18 @@ defmodule Gitea do
 
       {:error, _git_err} ->
         err = %Gitea.Error{message: "Couldn't create #{branch_name} branch"}
+        {:error, err}
+    end
+  end
+
+  @spec switch_branch(String.t(), String.t(), String.t()) :: {:ok, any} | {:error, Gitea.Error}
+  def switch_branch(org_name, repo_name, branch_name) do
+    case Git.checkout(local_git_repo(org_name, repo_name), [branch_name]) do
+      {:ok, res} ->
+        {:ok, res}
+
+      {:error, _git_err} ->
+        err = %Gitea.Error{message: "Couldn't switch to #{branch_name} branch"}
         {:error, err}
     end
   end
