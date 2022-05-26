@@ -271,18 +271,16 @@ defmodule Gitea do
     repo = local_git_repo(org_name, repo_name)
 
     with {:ok, _output} <- Git.add(repo, ["."]),
-         {:ok, _output} <-
+         {:ok, commit_output} <-
            Git.commit(repo, [
              "-m",
              params.message,
              ~s(--author="#{params.full_name} <#{params.email}>")
            ]) do
-      {:ok, :commit_created}
+      {:ok, commit_output}
     else
-      {:error, err} ->
-        err_message = Exception.message(err)
-        message = "Commit error: #{err_message}"
-        {:error, %Gitea.Error{messsage: message, reason: :commit_error}}
+      {:error, _err} ->
+        {:error, %Gitea.Error{message: "Commit error", reason: :commit_error}}
     end
   end
 
