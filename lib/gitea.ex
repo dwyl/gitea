@@ -270,9 +270,9 @@ defmodule Gitea do
   def commit(org_name, repo_name, params) do
     repo = local_git_repo(org_name, repo_name)
 
-    with {:ok, _output} <- Git.add(repo, ["."]),
+    with {:ok, _output} <- inject_git().add(repo, ["."]),
          {:ok, commit_output} <-
-           Git.commit(repo, [
+           inject_git().commit(repo, [
              "-m",
              params.message,
              ~s(--author="#{params.full_name} <#{params.email}>")

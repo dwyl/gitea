@@ -166,6 +166,7 @@ defmodule GiteaTest do
     org_name = "myorg"
     repo_name = create_test_git_repo(org_name)
     file_name = "README.md"
+
     text = "text #{repo_name}"
 
     assert {:ok, _path} = Gitea.local_file_write_text(org_name, repo_name, file_name, text)
@@ -201,6 +202,7 @@ defmodule GiteaTest do
         email: "c@t.co"
       })
 
+    IO.inspect(msg)
     assert String.contains?(msg, "test msg")
     assert String.contains?(msg, "1 file changed, 1 insertion(+)")
 
