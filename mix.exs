@@ -47,7 +47,7 @@ defmodule Gitea.MixProject do
       {:git_cli, "~> 0.3"},
 
       # Useful functions: github.com/dwyl/useful
-      {:useful, "~> 1.0.0"},
+      {:useful, "~> 1.0.8"},
 
       # Check test coverage: github.com/parroty/excoveralls
       {:excoveralls, "~> 0.14.4", only: :test},

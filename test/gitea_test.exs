@@ -28,15 +28,8 @@ defmodule GiteaTest do
     repo_name
   end
 
-  # Cleanup helper functions
-  defp delete_local_directory(repo_name) do
-    path = Path.join(Gitea.Helpers.temp_dir(@git_dir), repo_name)
-    Logger.debug("giteaTest.delete_local_directory: #{path}")
-    File.rm_rf(path)
-  end
-
   defp teardown_local_and_remote(org_name, repo_name) do
-    delete_local_directory(repo_name)
+    Useful.empty_dir_contents(Envar.get("GIT_TEMP_DIR_PATH"))
     Gitea.remote_repo_delete(org_name, repo_name)
   end
 
@@ -103,13 +96,18 @@ defmodule GiteaTest do
   test "Gitea.clone clones a known remote repository gitea on Fly.io" do
     org = "nelsonic"
     repo = "public-repo"
+    # first delete if already exists:
+    Useful.empty_dir_contents(@git_dir)
+
+    # get url for cloning
     git_repo_url = Gitea.Helpers.remote_url_ssh(org, repo)
 
-    assert {:ok, path} = Gitea.clone(git_repo_url)
+    # clone should work both in mock: true and mock: false
+    assert {:ok, _path} = Gitea.clone(git_repo_url)
     # assert path == Gitea.Helpers.local_repo_path(repo)
 
     # Clean up (but don't delete the remote repo!!)
-    delete_local_directory("public-repo")
+    Useful.empty_dir_contents(@git_dir)
   end
 
   test "Gitea.clone error (simulate unhappy path)" do
@@ -124,10 +122,10 @@ defmodule GiteaTest do
     repo = "public-repo"
     git_repo_url = Gitea.Helpers.remote_url_ssh(org, repo)
 
-    assert {:ok, path} = Gitea.clone(git_repo_url, ["nelsonic", "public-repo"])
+    assert {:ok, _path} = Gitea.clone(git_repo_url, ["nelsonic", "public-repo"])
 
     # Clean up (but don't delete the remote repo!!)
-    delete_local_directory("public-repo")
+    Useful.empty_dir_contents(@git_dir)
   end
 
   test "Gitea.clone/2 error" do
