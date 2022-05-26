@@ -184,7 +184,7 @@ defmodule GiteaTest do
              Gitea.local_file_write_text("wrongorg", "no-repo", "wrongfile.text", "test fail")
   end
 
-  test "commit/2 creates a commit in the repo" do
+  test "commit/3 creates a commit in the repo" do
     org_name = "myorg"
     repo_name = create_test_git_repo(org_name)
     file_name = "README.md"
@@ -208,6 +208,15 @@ defmodule GiteaTest do
 
     # Cleanup!
     teardown_local_and_remote(org_name, repo_name)
+  end
+
+  test "commit/3 fails when author is not defined" do
+    assert {:error, _msg} =
+             Gitea.commit("notfound", "error-repo", %{
+               message: "test fail commit",
+               full_name: "",
+               email: ""
+             })
   end
 
   test "Gitea.push/2 pushes the commit to the remote repo" do
