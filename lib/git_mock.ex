@@ -36,7 +36,6 @@ defmodule Gitea.GitMock do
           # copy the contents of /test-repo into /tmp/test-repo when mock:true
           path = Gitea.Helpers.local_repo_path("test-org", "test-repo")
           submodule = Path.join([File.cwd!(), "test-repo"]) |> Path.expand()
-          # Useful.empty_dir_contents(Envar.get("GIT_TEMP_DIR_PATH"))
           File.mkdir_p(path)
           File.cp_r(Path.join([submodule, ".git"]), path)
           File.copy(Path.join([submodule, "README.md"]), path)
@@ -72,7 +71,7 @@ defmodule Gitea.GitMock do
     IO.inspect(repo)
 
     if String.contains?(repo.path, "error") do
-      {:error, %Git.Error{message: "git clone error (mock)"}}
+      {:error, %Git.Error{message: "git commit error (mock)"}}
     else
       {:ok,
        "[master dc5b0d4] test msg\n Author: Al Ex <c@t.co>\n 1 file changed, 1 insertion(+)\n"}
@@ -86,7 +85,7 @@ defmodule Gitea.GitMock do
     iex> GitMock.add("my-repo", ["."])
     {:ok, "any string"}
   """
-  @spec add(String.t(), [any]) :: {:ok, any}
+  @spec add(Git.Repository.t(), [any]) :: {:ok, any}
   def add(_repo_path, _args) do
     {:ok, "totes always works"}
   end
