@@ -33,11 +33,12 @@ from our **`Elixir/Phoenix`** App.
 > Having a _separate_ module enforces a
 > [separation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns)
 > with a strong "API contract". <br />
-> This way we know this package is well-tested,
-> documented and maintained.
-> And can be used and _extended independently_
-> of any `Elixir/Phoenix` app.
-> The `Elixir/Phoenix` app can treat **`gitea`**
+> This way we know this package is well-tested both end-to-end and with
+> [Test Doubles](https://martinfowler.com/bliki/TestDouble.html),
+> documented and maintained. <br />
+> It can be used and _extended independently_
+> of any `Elixir/Phoenix` app
+> and is treated
 > as a logically separate/independent entity
 > with a clear interface.
 
@@ -47,7 +48,7 @@ A library for interacting with **`gitea`** (`git`)
 from `Elixir` apps. <br />
 
 Hopefully this diagram explains
-how we use the package:
+how we use the package in our stack:
 
 <div align="center">
 
