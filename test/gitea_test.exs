@@ -162,7 +162,7 @@ defmodule GiteaTest do
     Logger.error("test: local_branch_create/1 > error: #{error}")
   end
 
-  test "create_branch/3 create a new branch" do
+  test "create_branch/3 and switch/3 create a new branch and switch" do
     org_name = "myorg"
     repo_name = create_test_git_repo(org_name)
 
