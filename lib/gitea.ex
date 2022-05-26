@@ -204,9 +204,9 @@ defmodule Gitea do
 
   @doc """
   `local_branch_create/3` creates a branch with the specified name
-  or defaults to "draft".
+  or defaults to "draft", and switch to this branch.
   """
-  @spec local_branch_create(String.t(), String.t()) :: {:ok, map} | {:error, any}
+  @spec local_branch_create(String.t(), String.t(), String.t()) :: {:ok, map} | {:error, any}
   def local_branch_create(org_name, repo_name, branch_name \\ "draft") do
     case Git.checkout(local_git_repo(org_name, repo_name), ["-b", branch_name]) do
       {:ok, res} ->
@@ -218,6 +218,21 @@ defmodule Gitea do
         )
 
         {:error, git_err.message}
+    end
+  end
+
+  @doc """
+  `create_branch/3` creates a branch.
+  """
+  @spec create_branch(String.t(), String.t(), String.t()) :: {:ok, map} | {:error, Gitea.Error}
+  def create_branch(org_name, repo_name, branch_name) do
+    case Git.branch(local_git_repo(org_name, repo_name), [branch_name]) do
+      {:ok, res} ->
+        {:ok, res}
+
+      {:error, _git_err} ->
+        err = %Gitea.Error{message: "Couldn't create #{branch_name} branch"}
+        {:error, err}
     end
   end
 
