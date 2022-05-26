@@ -262,18 +262,28 @@ defmodule Gitea do
   `params.full_name`: the name of the person making the commit
   `params.email`: email address of the person committing.
   """
-  @spec commit(String.t(), String.t(), map) :: {:ok, any} | {:error, any}
+  @spec commit(String.t(), String.t(), %{
+          message: String.t(),
+          full_name: String.t(),
+          email: String.t()
+        }) :: {:ok, any} | {:error, Gitea.Error}
   def commit(org_name, repo_name, params) do
     repo = local_git_repo(org_name, repo_name)
-    # Add all files in the repo
-    {:ok, _output} = Git.add(repo, ["."])
-    # Commit with message
-    {:ok, _output} =
-      Git.commit(repo, [
-        "-m",
-        params.message,
-        ~s(--author="#{params.full_name} <#{params.email}>")
-      ])
+
+    with {:ok, _output} <- Git.add(repo, ["."]),
+         {:ok, _output} <-
+           Git.commit(repo, [
+             "-m",
+             params.message,
+             ~s(--author="#{params.full_name} <#{params.email}>")
+           ]) do
+      {:ok, :commit_created}
+    else
+      {:error, err} ->
+        err_message = Exception.message(err)
+        message = "Commit error: #{err_message}"
+        {:error, %Gitea.Error{messsage: message, reason: :commit_error}}
+    end
   end
 
   @doc """
