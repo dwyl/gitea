@@ -202,7 +202,6 @@ defmodule GiteaTest do
         email: "c@t.co"
       })
 
-    IO.inspect(msg)
     assert String.contains?(msg, "test msg")
     assert String.contains?(msg, "1 file changed, 1 insertion(+)")
 

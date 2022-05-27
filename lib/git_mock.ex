@@ -68,8 +68,6 @@ defmodule Gitea.GitMock do
   """
   @spec commit(Git.Repository.t(), [any]) :: {:ok, any}
   def commit(repo, _args) do
-    IO.inspect(repo)
-
     if String.contains?(repo.path, "error") do
       {:error, %Git.Error{message: "git commit error (mock)"}}
     else
@@ -83,7 +81,7 @@ defmodule Gitea.GitMock do
 
     ## Examples
     iex> GitMock.add("my-repo", ["."])
-    {:ok, "any string"}
+    {:ok, "totes always works"}
   """
   @spec add(Git.Repository.t(), [any]) :: {:ok, any}
   def add(_repo_path, _args) do
