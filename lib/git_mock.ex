@@ -61,10 +61,6 @@ defmodule Gitea.GitMock do
 
   @doc """
   `commit/2` (mock) simulate a commit and always returns {:ok, commit_info}
-
-    ## Examples
-    iex> GitMock.commit("my-repo", ["any", "args"])
-    {:ok, "[master dc5b0d4] test msg\n Author: Al Ex <c@t.co>\n 1 file changed, 1 insertion(+)\n"}
   """
   @spec commit(Git.Repository.t(), [any]) :: {:ok, any}
   def commit(repo, _args) do
@@ -78,10 +74,6 @@ defmodule Gitea.GitMock do
 
   @doc """
   `add/2` (mock) simulate a commit and always returns {:ok, any}
-
-    ## Examples
-    iex> GitMock.add("my-repo", ["."])
-    {:ok, "totes always works"}
   """
   @spec add(Git.Repository.t(), [any]) :: {:ok, any}
   def add(_repo_path, _args) do
