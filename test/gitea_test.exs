@@ -165,21 +165,20 @@ defmodule GiteaTest do
   test "create_branch/3 and switch/3 create a new branch and switch" do
     org_name = "myorg"
     repo_name = create_test_git_repo(org_name)
-    git_repo = Gitea.Helpers.local_git_repo(org_name, repo_name)
+    {:ok, branch_name} = Git.branch(%Git.Repository{path: @cwd}, ~w(--show-current))
+    Git.branch(Gitea.Helpers.local_git_repo(org_name, repo_name), ~w(-D draft))
 
-    {:ok, branch_name} = Git.branch(git_repo, ~w(--show-current))
-    branch_name = String.replace(branch_name, "\n", "")
-
-    assert {:ok, _res} = Gitea.create_branch(org_name, repo_name, "my-new-branch")
-    assert {:error, %Gitea.Error{}} = Gitea.create_branch(org_name, repo_name, "my-new-branch")
-    # swith to new branch
-    assert {:ok, _res} = Gitea.switch_branch(org_name, repo_name, "my-new-branch")
+    assert {:ok, res} = Gitea.create_branch(org_name, repo_name, "draft")
+    assert {:error, %Gitea.Error{}} = Gitea.create_branch(org_name, repo_name, "draft")
+    assert {:ok, _res} = Gitea.switch_branch(org_name, repo_name, "draft")
 
     # attempt to switch to a non existing branch
     assert {:error, _res} = Gitea.switch_branch(org_name, repo_name, "no-branch-here")
-    assert {:ok, _res} = Gitea.switch_branch(org_name, repo_name, branch_name)
 
-    Git.branch(Gitea.Helpers.local_git_repo(org_name, repo_name), ["-D", "my-new-branch"])
+    # Cleanup!
+    branch_name = String.replace(branch_name, "\n", "")
+    Git.checkout(%Git.Repository{path: @cwd}, [branch_name])
+    Git.branch(Gitea.Helpers.local_git_repo(org_name, repo_name), ~w(-D draft))
     teardown_local_and_remote(org_name, repo_name)
   end
 
