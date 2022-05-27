@@ -147,15 +147,14 @@ defmodule Gitea.Helpers do
   Made this a function in case we want to change the location of the
   directory later e.g. to a temporary directory.
   """
-  @spec temp_dir(String.t() | nil) :: binary()
-  def temp_dir(dir \\ nil) do
-    # Logger.info("temp_dir: #{dir} ")
-    if dir && File.exists?(dir) do
+  @spec temp_dir(any()) :: binary()
+  def temp_dir(dir) when is_binary(dir) do
+    if File.exists?(dir) do
       dir
-      # coveralls-ignore-start
     else
       File.cwd!()
-      # coveralls-ignore-stop
     end
   end
+
+  def temp_dir(_), do: File.cwd!()
 end

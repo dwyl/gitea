@@ -7,8 +7,11 @@ defmodule Gitea.HelpersTest do
   end
 
   test "temp_dir/1 returns cwd if no dir supplied" do
-    dir = Envar.get("GITHUB_WORKSPACE", "tmp")
-    assert Gitea.Helpers.temp_dir(dir) == dir
+    assert Gitea.Helpers.temp_dir(nil) == File.cwd!()
+  end
+
+  test "temp_dir/1 returns dir when dir exists" do
+    assert Gitea.Helpers.temp_dir("test-repo") == "test-repo"
   end
 
   test "make_url/2 (without port) returns a valid GitHub Base URL" do
