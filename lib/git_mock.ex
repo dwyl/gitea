@@ -33,7 +33,13 @@ defmodule Gitea.GitMock do
         if String.contains?(url, "error") do
           {:error, %Git.Error{message: "git clone error (mock)"}}
         else
-          {:ok, %Git.Repository{path: Gitea.Helpers.local_repo_path("test-org", "test-repo")}}
+          # copy the contents of /test-repo into /tmp/test-repo when mock:true
+          path = Gitea.Helpers.local_repo_path("test-org", "test-repo")
+          submodule = Path.join([File.cwd!(), "test-repo"]) |> Path.expand()
+          File.mkdir_p(path)
+          File.cp_r(Path.join([submodule, ".git"]), path)
+          File.copy(Path.join([submodule, "README.md"]), path)
+          {:ok, %Git.Repository{path: path}}
         end
     end
   end
@@ -51,5 +57,26 @@ defmodule Gitea.GitMock do
     Logger.info("Gitea.GitMock.push #{repo_path}")
     repo_name = Gitea.Helpers.get_repo_name_from_url(repo_path <> ".git")
     {:ok, "To ssh://gitea-server.fly.dev:10022/myorg/#{repo_name}.git\n"}
+  end
+
+  @doc """
+  `commit/2` (mock) simulate a commit and always returns {:ok, commit_info}
+  """
+  @spec commit(Git.Repository.t(), [any]) :: {:ok, any}
+  def commit(repo, _args) do
+    if String.contains?(repo.path, "error") do
+      {:error, %Git.Error{message: "git commit error (mock)"}}
+    else
+      {:ok,
+       "[master dc5b0d4] test msg\n Author: Al Ex <c@t.co>\n 1 file changed, 1 insertion(+)\n"}
+    end
+  end
+
+  @doc """
+  `add/2` (mock) simulate a commit and always returns {:ok, any}
+  """
+  @spec add(Git.Repository.t(), [any]) :: {:ok, any}
+  def add(_repo_path, _args) do
+    {:ok, "totes always works"}
   end
 end

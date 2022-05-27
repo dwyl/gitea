@@ -19,6 +19,23 @@ defmodule GiteaGitMockTest do
     assert expected == local_path
   end
 
+  test "Gitea.GitMock.add returns {:ok, totes always works}" do
+    {:ok, msg} = Gitea.GitMock.add(%Git.Repository{path: "any"}, "any")
+    assert String.contains?(msg, "always works")
+  end
+
+  test "Gitea.GitMock.commit returns {:ok, commit_message}" do
+    {:ok, msg} = Gitea.GitMock.commit(%Git.Repository{path: "any"}, "any")
+    assert String.contains?(msg, "1 file changed, 1 insertion(+)")
+  end
+
+  test "Gitea.GitMock.commit with error repo returns {:error, etc}" do
+    {:error, %Git.Error{message: msg}} =
+      Gitea.GitMock.commit(%Git.Repository{path: "error"}, "any")
+
+    assert String.contains?(msg, "commit error")
+  end
+
   test "Gitea.GitMock.clone with list recurses using the first param as url" do
     expected = Gitea.Helpers.local_repo_path("test-org", "test-repo")
 

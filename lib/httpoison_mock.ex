@@ -148,21 +148,19 @@ defmodule Gitea.HTTPoisonMock do
   def delete(url) do
     Logger.debug("Gitea.HTTPoisonMock.delete/1 #{url}")
     # check delete request endpooints
-    cond do
-      # match delete org
-      url =~ "/orgs" ->
-        {:ok,
-         %HTTPoison.Response{
-           body: "",
-           status_code: 204
-         }}
-
-      true ->
-        {:ok,
-         %HTTPoison.Response{
-           body: Jason.encode!(%{deleted: List.first(String.split(url, "?"))}),
-           status_code: 200
-         }}
+    # match delete org
+    if url =~ "/orgs" do
+      {:ok,
+       %HTTPoison.Response{
+         body: "",
+         status_code: 204
+       }}
+    else
+      {:ok,
+       %HTTPoison.Response{
+         body: Jason.encode!(%{deleted: List.first(String.split(url, "?"))}),
+         status_code: 200
+       }}
     end
   end
 end

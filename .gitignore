@@ -23,6 +23,7 @@ erl_crash.dump
 gitea-*.tar
 
 # Temporary files, for example, from tests.
+tmp/*
 /tmp/
 tmp/test-repo
 tmp/test-repo/README.md

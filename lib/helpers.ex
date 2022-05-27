@@ -120,7 +120,7 @@ defmodule Gitea.Helpers do
   def local_repo_path(org, repo) do
     # coveralls-ignore-start
     if @mock do
-      if String.contains?(repo, "no-repo") do
+      if String.contains?(repo, "no-repo") || String.contains?(repo, "error") do
         # in branch test we need to simulate a full path not a test-repo one ...
         Path.join([temp_dir(git_dir()), org, repo]) |> Path.expand()
       else
