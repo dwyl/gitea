@@ -261,6 +261,9 @@ Rather than duplicate all the docs here,
 please read the complete function reference,
 on hexdocs: https://hexdocs.pm/gitea/Gitea.html
 
+Gitea also provides the API documentation with the `/api/swagger` endpoint.
+In our case it is located at: https://gitea-server.fly.dev/api/swagger:
+
 <br />
 
 ## Tests!
