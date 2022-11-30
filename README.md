@@ -7,12 +7,12 @@
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/dwyl/gitea/Elixir%20CI?label=build&style=flat-square)](https://github.com/dwyl/gitea/actions/workflows/ci.yml)
 [![codecov.io](https://img.shields.io/codecov/c/github/dwyl/gitea/main.svg?style=flat-square)](http://codecov.io/github/dwyl/gitea?branch=main)
 [![Hex.pm](https://img.shields.io/hexpm/v/gitea?color=brightgreen&style=flat-square)](https://hex.pm/packages/gitea)
-[![Libraries.io dependency status](https://img.shields.io/librariesio/release/hex/gitea?logoColor=brightgreen&style=flat-square)](https://libraries.io/hex/gitea)
 [![docs](https://img.shields.io/badge/docs-maintained-brightgreen?style=flat-square)](https://hexdocs.pm/gitea/api-reference.html)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square)](https://github.com/dwyl/gitea/issues)
 [![HitCount](http://hits.dwyl.com/dwyl/gitea.svg)](http://hits.dwyl.com/dwyl/gitea)
 
 <!-- uncomment when service is working ...
+[![Libraries.io dependency status](https://img.shields.io/librariesio/release/hex/gitea?logoColor=brightgreen&style=flat-square)](https://libraries.io/hex/gitea)
 [![Inline docs](http://inch-ci.org/github/dwyl/auth.svg?branch=master&style=flat-square)](http://inch-ci.org/github/dwyl/auth)
 -->
 
